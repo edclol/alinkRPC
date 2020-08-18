@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import org.apache.flink.core.fs.FSDataInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.rmi.runtime.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,7 +33,6 @@ public final class Utils {
                     .create();
 
     private static Logger logger = LogManager.getLogger(Utils.class);
-
 
     /**
      * 读取hdfs上的csv文件 或者文件夹下的所有csv文件
@@ -219,6 +219,7 @@ public final class Utils {
         return Integer.valueOf(parameter.getOrDefault(key, value));
     }
 
+    //测试用
     public static void main(String[] args) throws Exception {
 
 //        BatchOperator batchOp = getBatchOp("/user/experiment/tmp/0131b504-ac6c-11ea-a731-000c2960831c-110", Config.HADOOP_FSURI);

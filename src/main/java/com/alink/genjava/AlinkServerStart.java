@@ -31,6 +31,7 @@ public class AlinkServerStart {
     }
 
     /**
+     * 启动RPC服务的入口
      * @param args
      */
     public static void main(String[] args) {
