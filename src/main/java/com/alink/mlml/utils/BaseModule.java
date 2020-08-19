@@ -33,7 +33,7 @@ public interface BaseModule {
         PipelineModel pipelineModel = pipeline.fit(trainData);
         //存储模型
         String savePath = Config.HADOOP_FSURI + params.getOrDefault("outModulePath", "").substring(5);
-        //System.out.println("module savePath is " + savePath);
+
         pipelineModel.save(savePath);
 
         return "{\"type\": \"ml model\"}";
