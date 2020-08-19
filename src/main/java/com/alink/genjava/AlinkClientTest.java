@@ -1,7 +1,7 @@
 package com.alink.genjava;
 
 
-import com.alink.mlml.utils.Config;
+import com.alink.ml.utils.Config;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;

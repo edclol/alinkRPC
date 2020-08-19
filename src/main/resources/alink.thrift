@@ -28,5 +28,9 @@ service AlinkService {
     string alinkRidgeRegression(1: string parameter);
 
 
+    string alinkRidgeRegression(1: string parameter);
+    string alinkRidgeRegression(1: string parameter);
+
+
 
 }

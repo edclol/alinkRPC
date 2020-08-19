@@ -1,8 +1,8 @@
 package com.alink.genjava;
 
 
-import com.alink.mlml.classification.DecisionTreeClassifierr;
-import com.alink.mlml.classification.RandomForestClassifierr;
+import com.alink.ml.classification.DecisionTreeClassifierr;
+import com.alink.ml.classification.RandomForestClassifierr;
 import org.apache.thrift.TException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
