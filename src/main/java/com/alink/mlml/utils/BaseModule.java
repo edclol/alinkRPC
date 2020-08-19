@@ -16,7 +16,11 @@ import java.util.HashMap;
  */
 public interface BaseModule {
 
-
+    /**
+     * 模型通用方法
+     * @param parameter
+     * @return
+     */
     default String fit(String parameter) {
         HashMap<String, String> params = Utils.json2map(parameter);
         //获取数据源
@@ -37,5 +41,10 @@ public interface BaseModule {
     }
 
 
+    /**
+     * 每个模型返回自己的module
+     * @param map
+     * @return
+     */
     PipelineStageBase getModule(HashMap<String, String> map);
 }
