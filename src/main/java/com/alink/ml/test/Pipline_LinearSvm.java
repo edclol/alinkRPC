@@ -2,6 +2,8 @@ package com.alink.ml.test;
 
 import com.alibaba.alink.operator.batch.BatchOperator;
 import com.alibaba.alink.operator.batch.source.CsvSourceBatchOp;
+import com.alibaba.alink.operator.stream.source.AkSourceStreamOp;
+import com.alibaba.alink.operator.stream.source.CsvSourceStreamOp;
 import com.alibaba.alink.pipeline.Pipeline;
 import com.alibaba.alink.pipeline.PipelineModel;
 import com.alibaba.alink.pipeline.classification.LinearSvm;
@@ -19,6 +21,8 @@ public class Pipline_LinearSvm {
                 .setFieldDelimiter("\t")
                 .setFilePath(url).setSchemaStr(schema);
 
+
+
         //构建管道
         Pipeline pipeline = new Pipeline();
         Pipeline pipeline1 = pipeline
@@ -33,7 +37,10 @@ public class Pipline_LinearSvm {
         pipelineModel.save("/home/edc/alink-linearSVM.csv");
 
         PipelineModel pipelineModel1 = PipelineModel.load("/home/edc/alink-linearSVM.csv");
-        pipelineModel1.transform(trainData).print();
+       pipelineModel1.transform(trainData);
+
+
+
 
     }
 }

@@ -17,7 +17,7 @@
         <scala.version>2.11.8</scala.version>
         <scala.compat.version>2.11</scala.compat.version>
         <hadoop.version>2.7.2</hadoop.version>
-        <flink.version>1.10.0</flink.version>
+        <flink.version>1.11.0</flink.version>
         <kafka.version>1.1.1</kafka.version>
     </properties>
 
@@ -60,6 +60,17 @@
             <version>${flink.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-streaming-scala_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-table-planner_2.11</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
         <!--mysql驱动-->
         <dependency>
             <groupId>mysql</groupId>
@@ -71,7 +82,7 @@
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-jdbc_2.11</artifactId>
-            <version>1.10.0</version>
+            <version>1.10.1</version>
         </dependency>
 
 
@@ -82,9 +93,10 @@
         </dependency>
 
 
+        <!--      ============================================  alink  ================================================ -->
         <dependency>
             <groupId>com.alibaba.alink</groupId>
-            <artifactId>alink_core_flink-1.10_2.11</artifactId>
+            <artifactId>alink_core_flink-1.11_2.11</artifactId>
             <version>1.2.0</version>
             <!-- 去除版本不一致的传递依赖包 -->
             <exclusions>
@@ -102,16 +114,36 @@
             </exclusions>
 
         </dependency>
+
         <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-scala_2.11</artifactId>
-            <version>1.10.0</version>
+            <groupId>com.alibaba.alink</groupId>
+            <artifactId>alink_connectors_kafka_base_flink-1.11_2.11</artifactId>
+            <version>1.2.0</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba.alink/alink_connectors_kafka_0.11_flink-1.11 -->
         <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-table-planner_2.11</artifactId>
-            <version>1.10.0</version>
+            <groupId>com.alibaba.alink</groupId>
+            <artifactId>alink_connectors_kafka_0.11_flink-1.11_2.11</artifactId>
+            <version>1.2.0</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.alibaba.alink/alink -->
+        <dependency>
+            <groupId>com.alibaba.alink</groupId>
+            <artifactId>alink</artifactId>
+            <version>1.2.0</version>
+            <type>pom</type>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.alibaba.alink</groupId>
+            <artifactId>shaded_protobuf_java</artifactId>
+            <version>3.6.1-0.2</version>
+        </dependency>
+
+        <!--   =====================================================================================================================-->
 
 
         <!-- oss file system dependency -->
