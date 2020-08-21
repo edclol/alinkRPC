@@ -1,20 +1,19 @@
 package com.alink.pipline.opreter;
 
 import com.alibaba.alink.operator.stream.StreamOperator;
-import com.alibaba.alink.operator.stream.dataproc.SplitStreamOp;
-import com.alibaba.alink.operator.stream.sql.FilterStreamOp;
-import com.alibaba.alink.operator.stream.sql.UnionAllStreamOp;
 import com.alink.pipline.entry.AlinkCanvas;
 import com.alink.pipline.entry.Node;
 import com.google.gson.Gson;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by edc on 2020/8/20 下午5:18
  */
 public class AlinkStreamService {
-    public static void main(String[] args) throws IllegalAccessException, ClassNotFoundException, InstantiationException {
+    public static void main(String[] args) throws Exception {
         String jsondata = "{\"nodes\":[{\"id\":\"node10\",\"name\":\"InputLayer\",\"icon\":\"task-icon-41\",\"category\":\"02\",\"operator\":\"InputLayer\",\"children\":[],\"nodeParam\":{\"input_shape\":\"\",\"batch_size\":\"None\",\"batch_input_shape\":\"None\",\"dtype\":\"None\",\"input_tensor\":\"None\",\"sparse\":\"None\",\"name\":\"None\"},\"positionX\":291,\"positionY\":99,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node10_0\"}],\"inPorts\":[{\"id\":\"node10_0\"}]},{\"id\":\"node11\",\"name\":\"Layer\",\"icon\":\"task-icon-41\",\"category\":\"04\",\"operator\":\"Layer\",\"children\":[],\"nodeParam\":{},\"positionX\":277,\"positionY\":198,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node11_0\"}],\"inPorts\":[{\"id\":\"node11_0\",\"isConnected\":true}]}],\"paths\":[{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node10_0\",\"endPort\":\"node11\",\"startId\":\"node10\",\"endId\":\"node11\"}]}";
         String json2 = "{\"nodes\":[{\"id\":\"node10\",\"name\":\"InputLayer\",\"icon\":\"task-icon-41\",\"category\":\"02\",\"operator\":\"InputLayer\",\"children\":[],\"nodeParam\":{\"input_shape\":\"\",\"batch_size\":\"None\",\"batch_input_shape\":\"None\",\"dtype\":\"None\",\"input_tensor\":\"None\",\"sparse\":\"None\",\"name\":\"None\"},\"positionX\":291,\"positionY\":99,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node10_0\"}],\"inPorts\":[{\"id\":\"node10_0\"}]},{\"id\":\"node11\",\"name\":\"Layer\",\"icon\":\"task-icon-41\",\"category\":\"04\",\"operator\":\"Layer\",\"children\":[],\"nodeParam\":{},\"positionX\":121,\"positionY\":193,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node11_0\"}],\"inPorts\":[{\"id\":\"node11_0\",\"isConnected\":true}]},{\"id\":\"node12\",\"name\":\"Layer\",\"icon\":\"task-icon-41\",\"category\":\"04\",\"operator\":\"Layer\",\"children\":[],\"nodeParam\":{},\"positionX\":319,\"positionY\":361,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node12_0\"}],\"inPorts\":[{\"id\":\"node12_0\",\"isConnected\":true}]}],\"paths\":[{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node10_0\",\"endPort\":\"node11\",\"startId\":\"node10\",\"endId\":\"node11\"},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node11_0\",\"endPort\":\"node12\",\"startId\":\"node11\",\"endId\":\"node12\"},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node10_0\",\"endPort\":\"node12\",\"startId\":\"node10\",\"endId\":\"node12\"}]}";
         String json3 = "{\"nodes\":[{\"id\":\"node10\",\"name\":\"InputLayer\",\"icon\":\"task-icon-41\",\"category\":\"02\",\"operator\":\"InputLayer\",\"children\":[],\"nodeParam\":{\"input_shape\":\"\",\"batch_size\":\"None\",\"batch_input_shape\":\"None\",\"dtype\":\"None\",\"input_tensor\":\"None\",\"sparse\":\"None\",\"name\":\"None\"},\"positionX\":242,\"positionY\":213,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node10_0\"}],\"inPorts\":[{\"id\":\"node10_0\"}]},{\"id\":\"node11\",\"name\":\"Layer\",\"icon\":\"task-icon-41\",\"category\":\"04\",\"operator\":\"Layer\",\"children\":[],\"nodeParam\":{},\"positionX\":263,\"positionY\":315,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node11_0\"}],\"inPorts\":[{\"id\":\"node11_0\",\"isConnected\":true}]},{\"id\":\"node12\",\"name\":\"Layer\",\"icon\":\"task-icon-41\",\"category\":\"04\",\"operator\":\"Layer\",\"children\":[],\"nodeParam\":{},\"positionX\":196,\"positionY\":523,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node12_0\"}],\"inPorts\":[{\"id\":\"node12_0\",\"isConnected\":true}]},{\"id\":\"node13\",\"name\":\"BatchNormalization\",\"icon\":\"task-icon-41\",\"category\":\"nl\",\"operator\":\"BatchNormalization\",\"children\":[],\"nodeParam\":{\"axis\":\"1\",\"momentum\":\"0.99\",\"epsilon\":\"0.001\",\"center\":true,\"scale\":true,\"beta_initializer\":\"zeros\",\"gamma_initializer\":\"ones\",\"moving_mean_initializer\":\"zeros\",\"moving_variance_initializer\":\"ones\",\"beta_regularizer\":\"None\",\"gamma_regularizer\":\"None\",\"beta_constraint\":\"None\",\"gamma_constraint\":\"None\"},\"positionX\":442,\"positionY\":405,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node13_0\"}],\"inPorts\":[{\"id\":\"node13_0\",\"isConnected\":true}]}],\"paths\":[{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node10_0\",\"endPort\":\"node11\",\"startId\":\"node10\",\"endId\":\"node11\"},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node11_0\",\"endPort\":\"node12\",\"startId\":\"node11\",\"endId\":\"node12\"},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node11_0\",\"endPort\":\"node13\",\"startId\":\"node11\",\"endId\":\"node13\"},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node13_0\",\"endPort\":\"node12\",\"startId\":\"node13\",\"endId\":\"node12\"}]}";
@@ -38,7 +37,7 @@ public class AlinkStreamService {
 
     }
 
-    private static void json2alink(String json) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    private static void json2alink(String json) throws Exception {
 
 
         Gson gson = new Gson();
@@ -60,10 +59,11 @@ public class AlinkStreamService {
         List<Node> inNode = getInNode(data);
         List<Node> outNode = getOutNode(data);
 
-        StreamOperator streamOp = null;
 
         run(inNode.get(0));
 
+        StreamOperator streamOperator = outNode.get(0).getFixedOP().get(0);
+        StreamOperator.execute();
 
 
     }
