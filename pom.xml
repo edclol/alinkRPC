@@ -43,7 +43,6 @@
         </dependency>
 
 
-
         <!--flink的java的依赖-->
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -89,16 +88,15 @@
         </dependency>
 
 
-
         <!--      ============================================  alink  ================================================ -->
         <!-- https://mvnrepository.com/artifact/com.alibaba.alink/alink_connectors -->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.alink</groupId>-->
-<!--            <artifactId>alink_connectors</artifactId>-->
-<!--            <version>1.2.0</version>-->
-<!--            <type>pom</type>-->
-<!--            <scope>import</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba.alink</groupId>-->
+        <!--            <artifactId>alink_connectors</artifactId>-->
+        <!--            <version>1.2.0</version>-->
+        <!--            <type>pom</type>-->
+        <!--            <scope>import</scope>-->
+        <!--        </dependency>-->
 
 
         <dependency>
@@ -223,8 +221,6 @@
             <artifactId>hutool-all</artifactId>
             <version>5.4.0</version>
         </dependency>
-
-
 
 
     </dependencies>
