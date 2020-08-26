@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by edc on 2020/8/25 下午5:00
+ * Created by edc on 2020/8/25 下午5 :00
  */
 public class SelectBatchOpp {
 
@@ -49,7 +49,7 @@ public class SelectBatchOpp {
             //修改数据
             BatchOperator selected = trainData.link(new SelectBatchOp().setClause(map.getOrDefault("clause", "fea_0")));
 
-            selected.print();
+//            selected.print();
 
 
             //存储数据
@@ -58,14 +58,12 @@ public class SelectBatchOpp {
 //            input_data_path
 
             System.out.println("存储数据  " + input_data_path);
-            CsvSinkBatchOp csvSinkBatchOp = new CsvSinkBatchOp()
-                    .setOverwriteSink(true)
-                    .setFieldDelimiter(",")
-                    .setFilePath(input_data_path);
-            BatchOperator csvSinkBatchOp1 = csvSinkBatchOp.link(selected);
-            String s = csvSinkBatchOp1.getSchema().toString();
-            System.out.println("------------------------");
-            BatchOperator.execute();
+
+            CsvSinkBatchOp csvSink = new CsvSinkBatchOp().setFilePath(input_data_path);
+            selected.link(csvSink);
+
+            String s = selected.getSchema().toString();
+            System.out.println("-----------------------");
 
             //解析出schema
             String s1 = s.replaceAll("\\n|:", "")
@@ -100,18 +98,15 @@ public class SelectBatchOpp {
 
             ArrayList<Object> list1 = new ArrayList<>();
             list1.add(map1);
-
             str = Utils.pGson.toJson(list1);
-
+            return str;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
             logger.info("return   " + str);
             return str;
         }
 
-//        return "[{\"type\": \"dataframe\", \"schema\": [{\"column_name\": \"fea_0\", \"column_type\": \"int\"}, {\"column_name\": \"fea_1\", \"column_type\": \"int\"}, {\"column_name\": \"fea_2\", \"column_type\": \"int\"}, {\"column_name\": \"fea_3\", \"column_type\": \"int\"}, {\"column_name\": \"fea_4\", \"column_type\": \"int\"}, {\"column_name\": \"fea_5\", \"column_type\": \"int\"}, {\"column_name\": \"fea_6\", \"column_type\": \"int\"}, {\"column_name\": \"fea_7\", \"column_type\": \"int\"}, {\"column_name\": \"fea_8\", \"column_type\": \"int\"}, {\"column_name\": \"fea_9\", \"column_type\": \"int\"}]}]";
     }
 
     /**
