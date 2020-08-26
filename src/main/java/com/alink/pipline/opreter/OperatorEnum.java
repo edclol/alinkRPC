@@ -8,17 +8,13 @@ import java.util.Map;
  */
 public enum OperatorEnum {
 
-    FILTER("filter", "FilterOperter"),
-    JOIN("join", ""),
-    IN("in","InputOp"),
-    AS("in","InputOp"),
-    GROUP_BY("in","InputOp"),
-    SELECT("in","InputOp"),
-    ORDER_BY("in","InputOp"),
-    SPLIT("in","InputOp"),
-    UNION("in","InputOp"),
-    WHERE("in","InputOp"),
-    UNION_ALL("in","InputOp"),
+    FILTER("FilterStreamOpp", "FilterStreamOpp"),
+    IN("InputOp","InputOp"),
+    SELECT("SelectStreamOpp","SelectStreamOpp"),
+    UNION_ALL("UnionAllStreamOpp","UnionAllStreamOpp"),
+    WHERE("WhereStreamOpp","WhereStreamOpp"),
+    AS("AsStreamOpp","AsStreamOpp"),
+    SPLIT("SplitStreamOp","SplitStreamOp"),
     ;
 
     private final String cmd;

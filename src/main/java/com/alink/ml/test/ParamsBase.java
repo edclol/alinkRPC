@@ -9,6 +9,7 @@ import java.util.Objects;
 public class ParamsBase {
     private HashMap<String,String> params;
 
+
     public HashMap<String, String> getParams() {
         return params;
     }

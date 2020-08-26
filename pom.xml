@@ -42,11 +42,7 @@
             <version>${flink.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-streaming-scala_2.11</artifactId>
-            <version>${flink.version}</version>
-        </dependency>
+
 
         <!--flink的java的依赖-->
         <dependency>
@@ -93,7 +89,18 @@
         </dependency>
 
 
+
         <!--      ============================================  alink  ================================================ -->
+        <!-- https://mvnrepository.com/artifact/com.alibaba.alink/alink_connectors -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.alink</groupId>-->
+<!--            <artifactId>alink_connectors</artifactId>-->
+<!--            <version>1.2.0</version>-->
+<!--            <type>pom</type>-->
+<!--            <scope>import</scope>-->
+<!--        </dependency>-->
+
+
         <dependency>
             <groupId>com.alibaba.alink</groupId>
             <artifactId>alink_core_flink-1.11_2.11</artifactId>
@@ -111,6 +118,7 @@
                     <artifactId>flink-jdbc_2.11</artifactId>
                     <!--<version>1.11.0</version>-->
                 </exclusion>
+
             </exclusions>
 
         </dependency>
@@ -125,6 +133,12 @@
         <dependency>
             <groupId>com.alibaba.alink</groupId>
             <artifactId>alink_connectors_kafka_0.11_flink-1.11_2.11</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.alink</groupId>
+            <artifactId>alink_connectors_kafka_flink-1.11_2.11</artifactId>
             <version>1.2.0</version>
         </dependency>
 

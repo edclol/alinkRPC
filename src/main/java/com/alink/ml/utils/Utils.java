@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 /**
  * 常用工具类
@@ -24,14 +25,14 @@ import java.util.List;
  */
 public final class Utils {
 
-    private static Gson pGson =
+    public static Gson pGson =
             new GsonBuilder()
                     .serializeNulls()
                     .disableHtmlEscaping()
                     .serializeSpecialFloatingPointValues()
                     .create();
 
-    private static Logger logger = LogManager.getLogger(Utils.class);
+    public static Logger logger = LogManager.getLogger(Utils.class);
 
     /**
      * 读取hdfs上的csv文件 或者文件夹下的所有csv文件
@@ -46,10 +47,12 @@ public final class Utils {
             path = path.substring(5);
 
             logger.info("path is " + path);
+            System.out.println("path is " + path);
 
             String schemaStr = getSchema(path, uri);
 
             logger.info("schemaStr  is " + schemaStr);
+            System.out.println("schemaStr  is " + schemaStr);
 
             HadoopFileSystem hdfs = new HadoopFileSystem(uri);
 
@@ -79,6 +82,7 @@ public final class Utils {
                         .setFilePath(uri + path)
                         .setSchemaStr(schemaStr)
                         .setIgnoreFirstLine(true);
+                System.out.println("getBatch  jieshu");
                 return csvSourceBatchOp;
             }
         } catch (Exception e) {
@@ -89,6 +93,7 @@ public final class Utils {
 
         }
         logger.error("读取数据源失败");
+        System.out.println("读取数据源失败");
         return new CsvSourceBatchOp();
     }
 
@@ -102,11 +107,17 @@ public final class Utils {
     public static String getSchema(String path, String uri) {
 
         try {
-            FSDataInputStream in = new HadoopFileSystem(uri).open(path + "_schema.txt");
+
+            String rrr = "/root/schema"+path.substring(20)+ "_schema" ;
+//            logger.info(rrr);
+            System.out.println(rrr);
+            FSDataInputStream in = new HadoopFileSystem(uri).open(rrr);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             String s = bufferedReader.readLine();
+            System.out.println("getSchema  "+s);
             return s.trim();
         } catch (IOException e) {
+            System.out.println("getSchema  error");
             e.printStackTrace();
         }
         return "";
@@ -120,10 +131,11 @@ public final class Utils {
      * @return 解析的hashmap
      */
     public static HashMap<String, String> json2map(String para) {
-        ParamsBase paramsBase = pGson.fromJson(para, ParamsBase.class);
-        HashMap<String, String> params = paramsBase.getParams();
-        logger.info("json2map params is " + params);
-        return params;
+        HashMap map = pGson.fromJson(para, HashMap.class);
+        logger.info("json2map params is " + map);
+        HashMap<String, String> map1 = new HashMap<>();
+        map.forEach((o, o2) -> map1.put(o.toString(),o2.toString()));
+        return map1;
     }
 
 
@@ -182,6 +194,9 @@ public final class Utils {
 
     }
 
+
+
+
     /**
      * 从总的参数map里面获取bool若没有返回true
      *
@@ -227,9 +242,22 @@ public final class Utils {
 //        System.out.println("hdfs:/user/experiment/tmp/0131b504-ac6c-11ea-a731-000c2960831c-110".substring(5));
 //        logger.info("aaaa");
 
-        String str = "[2,2,3]";
-        System.out.println(str.substring(1, str.length() - 1));
+//        String str = "[2,2,3]";
+//        System.out.println(str.substring(1, str.length() - 1));
+//
+//        System.out.println(Double.valueOf("222"));
 
-        System.out.println(Double.valueOf("222"));
+
+
+        String sss = "{\"input_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-100\", \"output_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-90\", \"clause\": \"fea_0,fea_1,fea_2\"}";
+        System.out.println(Utils.json2map(sss));
+
+        ParamsBase paramsBase = new ParamsBase();
+        HashMap<String, String> map = new HashMap<>();
+        Object put = map.put("1", "3");
+
+        paramsBase.setParams(map);
+        String s = pGson.toJson(map);
+        System.out.println(s);
     }
 }

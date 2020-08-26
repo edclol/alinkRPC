@@ -29,7 +29,7 @@ public interface BaseModule {
         Pipeline pipeline = new Pipeline().add(module);
         PipelineModel pipelineModel = pipeline.fit(trainData);
         //存储模型
-        String savePath = Config.HADOOP_FSURI + params.getOrDefault("outModulePath", "").substring(5);
+        String savePath = Config.HADOOP_FSURI + params.getOrDefault("filePath", "hdfs:/data/iris.csv").substring(5) + "_module";
 
         pipelineModel.save(savePath);
 

@@ -24,9 +24,10 @@ public class AlinkClientTest {
             AlinkService.Client client = new AlinkService.Client(protocol);
             transport.open();
             String result = client.sayhello("ooouuut",hello);
-//            String s = client.alink_where("a", "a", "a");
-//            System.out.println("Client 接收到  "+s);
+            String s = client.alinkSelect("{\"input_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-100\", \"output_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-90\", \"clause\": \"fea_0,fea_1,fea_2,fea_3\"}");
+
             System.out.println("Client 接收到  "+result);
+            System.out.println("Client 接收到  "+s);
 
 
         } catch (TTransportException e) {

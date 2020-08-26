@@ -5,6 +5,7 @@ import com.alibaba.alink.operator.batch.source.CsvSourceBatchOp;
 import com.alibaba.alink.pipeline.Pipeline;
 import com.alibaba.alink.pipeline.PipelineModel;
 import com.alibaba.alink.pipeline.classification.DecisionTreeClassifier;
+import org.apache.flink.table.api.TableSchema;
 
 /**
  * Created by edc on 2020/8/6
@@ -13,12 +14,18 @@ public class Pipline_DecisionTreeRegressor {
     public static void main(String[] args) throws Exception {
         //数据源
         String filepath = "/home/edc/exampleData.csv";
-        String schema = "f0 double, f1 string, f2 bigint, f3 bigint ,label bigint";
+//        String schema = "f0 double, f1 string, f2 bigint, f3 bigint ,label bigint";
+        String schema = "f0 DOUBLE , f1 STRING , f2 BIGINT , f3 BIGINT , label BIGINT";
 
         BatchOperator trainData = new CsvSourceBatchOp()
                 .setFilePath(filepath).setSchemaStr(schema);
 
-        trainData.print();
+        String s = trainData.getSchema().toString();
+        String s1 = s.replaceAll("\\n|:", "")
+                .replace("root |-- ", "")
+                .replaceAll("\\|--", ",");
+        System.out.println(s1);
+//        trainData.print();
 
         //构建管道
         Pipeline pipeline = new Pipeline();
