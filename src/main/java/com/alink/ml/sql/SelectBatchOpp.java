@@ -62,16 +62,8 @@ public class SelectBatchOpp {
             CsvSinkBatchOp csvSink = new CsvSinkBatchOp().setFilePath(input_data_path);
             selected.link(csvSink);
 
-//            CsvSinkBatchOp csvSinkBatchOp = new CsvSinkBatchOp()
-//                    .setOverwriteSink(true)
-//                    .setFieldDelimiter(",")
-//                    .setFilePath(input_data_path);
-//            BatchOperator csvSinkBatchOp1 = csvSinkBatchOp.link(selected);
-
-
             String s = selected.getSchema().toString();
             System.out.println("-----------------------");
-//            BatchOperator.execute();
 
             //解析出schema
             String s1 = s.replaceAll("\\n|:", "")
