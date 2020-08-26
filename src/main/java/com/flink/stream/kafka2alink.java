@@ -1,12 +1,9 @@
 package com.flink.stream;
 
 import com.alibaba.alink.operator.stream.StreamOperator;
-import com.alibaba.alink.operator.stream.sink.KafkaSinkStreamOp;
 import com.alibaba.alink.operator.stream.sink.TextSinkStreamOp;
 import com.alibaba.alink.operator.stream.source.KafkaSourceStreamOp;
-import com.alibaba.alink.operator.stream.utils.UDFStreamOp;
 import com.alink.ml.utils.Config;
-import org.apache.flink.table.functions.ScalarFunction;
 
 import static com.alibaba.alink.params.io.KafkaSourceParams.StartupMode.EARLIEST;
 
