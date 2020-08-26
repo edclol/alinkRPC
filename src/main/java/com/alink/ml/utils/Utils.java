@@ -17,7 +17,6 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 /**
  * 常用工具类
@@ -37,36 +36,36 @@ public final class Utils {
     /**
      * 读取hdfs上的csv文件 或者文件夹下的所有csv文件
      *
-     * @param path "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
-     * @param uri  "hdfs://master:9000"
+     * @param str "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
+     * @param "hdfs://master:9000"
      * @return
      */
-    public static BatchOperator getBatchOp(String path, String uri) {
+    public static BatchOperator readBatchOpFromHDFS(String str) {
         try {
+            //读取hadoop上schema的数据
+            String schemaStr = readSchemaFromHDFS(str);
 
-            path = path.substring(5);
+            //截掉不需要的hdfs： 前缀 /user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00
+            String path = str.substring(5);
 
             logger.info("path is " + path);
             System.out.println("path is " + path);
 
-            String schemaStr = getSchema(path, uri);
 
             logger.info("schemaStr  is " + schemaStr);
             System.out.println("schemaStr  is " + schemaStr);
 
-            HadoopFileSystem hdfs = new HadoopFileSystem(uri);
-
+            //分情况读取所有的数据 读取成BatchOpertor并返回
+            HadoopFileSystem hdfs = new HadoopFileSystem(Config.HADOOP_FSURI);
             if (hdfs.getFileStatus(path).isDir()) {
 
                 List<String> strings = hdfs.listFiles(path);
-
                 BatchOperator[] Batch = new BatchOperator[strings.size() - 1];
-
                 int i = 0;
                 for (String string : strings) {
-                    if (!string.equals(uri + path + "/_SUCCESS")) {
+                    if (!string.equals(Config.HADOOP_FSURI + path + "/_SUCCESS")) {
 
-                        logger.info("遍历的目录地址 " + string);
+//                        logger.info("遍历的目录地址 " + string);
                         CsvSourceBatchOp csvSourceBatchOp = new CsvSourceBatchOp()
                                 .setFilePath(string)
                                 .setSchemaStr(schemaStr)
@@ -78,13 +77,15 @@ public final class Utils {
 
                 return new UnionAllBatchOp().linkFrom(Batch);
             } else {
+
                 CsvSourceBatchOp csvSourceBatchOp = new CsvSourceBatchOp()
-                        .setFilePath(uri + path)
+                        .setFilePath(Config.HADOOP_FSURI + path)
                         .setSchemaStr(schemaStr)
                         .setIgnoreFirstLine(true);
-                System.out.println("getBatch  jieshu");
+
                 return csvSourceBatchOp;
             }
+
         } catch (Exception e) {
             logger.error(e);
             e.printStackTrace();
@@ -100,21 +101,21 @@ public final class Utils {
     /**
      * 从hdfs上读取schema文件 获取schemaStr
      *
-     * @param path "/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
-     * @param uri  "hdfs://master:9000"
+     * @param path "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
+     * @param "hdfs://master:9000"
      * @return "f0 double,f1 int"
      */
-    public static String getSchema(String path, String uri) {
+    public static String readSchemaFromHDFS(String path) {
 
         try {
-
-            String rrr = "/root/schema"+path.substring(20)+ "_schema" ;
+            path = path.substring(5);
+            String rrr = "/root/schema" + path.substring(20) + "_schema";
 //            logger.info(rrr);
             System.out.println(rrr);
-            FSDataInputStream in = new HadoopFileSystem(uri).open(rrr);
+            FSDataInputStream in = new HadoopFileSystem(Config.HADOOP_FSURI).open(rrr);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             String s = bufferedReader.readLine();
-            System.out.println("getSchema  "+s);
+            System.out.println("getSchema  " + s);
             return s.trim();
         } catch (IOException e) {
             System.out.println("getSchema  error");
@@ -134,7 +135,7 @@ public final class Utils {
         HashMap map = pGson.fromJson(para, HashMap.class);
         logger.info("json2map params is " + map);
         HashMap<String, String> map1 = new HashMap<>();
-        map.forEach((o, o2) -> map1.put(o.toString(),o2.toString()));
+        map.forEach((o, o2) -> map1.put(o.toString(), o2.toString()));
         return map1;
     }
 
@@ -195,8 +196,6 @@ public final class Utils {
     }
 
 
-
-
     /**
      * 从总的参数map里面获取bool若没有返回true
      *
@@ -246,7 +245,6 @@ public final class Utils {
 //        System.out.println(str.substring(1, str.length() - 1));
 //
 //        System.out.println(Double.valueOf("222"));
-
 
 
         String sss = "{\"input_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-100\", \"output_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-90\", \"clause\": \"fea_0,fea_1,fea_2\"}";

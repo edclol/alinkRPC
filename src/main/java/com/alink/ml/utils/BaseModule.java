@@ -21,7 +21,7 @@ public interface BaseModule {
     default String fit(String parameter) {
         HashMap<String, String> params = Utils.json2map(parameter);
         //获取数据源
-        BatchOperator trainData = Utils.getBatchOp(params.getOrDefault("filePath", "hdfs:/data/iris.csv"), Config.HADOOP_FSURI);
+        BatchOperator trainData = Utils.readBatchOpFromHDFS(params.getOrDefault("input_data_path", "hdfs:/data/iris.csv"));
 
         //获取module
         PipelineStageBase module = getModule(params);
@@ -29,7 +29,7 @@ public interface BaseModule {
         Pipeline pipeline = new Pipeline().add(module);
         PipelineModel pipelineModel = pipeline.fit(trainData);
         //存储模型
-        String savePath = Config.HADOOP_FSURI + params.getOrDefault("filePath", "hdfs:/data/iris.csv").substring(5) + "_module";
+        String savePath = Config.HADOOP_FSURI + params.getOrDefault("input_data_path", "hdfs:/data/iris.csv").substring(5) + "_module";
 
         pipelineModel.save(savePath);
 

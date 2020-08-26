@@ -5,7 +5,6 @@ import com.alink.ml.classification.DecisionTreeClassifierr;
 import com.alink.ml.classification.RandomForestClassifierr;
 import com.alink.ml.dataETL.MinMaxScalerr;
 import com.alink.ml.sql.SelectBatchOpp;
-import com.alink.ml.sql.Selectt;
 import org.apache.thrift.TException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
