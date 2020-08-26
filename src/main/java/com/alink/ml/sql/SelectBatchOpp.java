@@ -74,7 +74,7 @@ public class SelectBatchOpp {
             System.out.println("解析出schema" + s1);
 
 
-            ///321
+            ///
             //存储schema
             String outpath = "/root/schema" + map.getOrDefault("input_data_path", "hdfs:/data/iris.csv").substring(20) + "_schema";
             System.out.println("存储schema " + outpath);
