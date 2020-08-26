@@ -147,6 +147,7 @@ public class SelectBatchOpp {
                                 .setFilePath(string)
                                 .setSchemaStr(schemaStr)
                                 .setIgnoreFirstLine(true);
+
                         Batch[i] = csvSourceBatchOp;
                         i++;
                     }
