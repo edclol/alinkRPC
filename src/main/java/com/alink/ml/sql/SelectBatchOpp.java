@@ -64,7 +64,7 @@ public class SelectBatchOpp {
                     .setFilePath(input_data_path);
             BatchOperator csvSinkBatchOp1 = csvSinkBatchOp.link(selected);
             String s = csvSinkBatchOp1.getSchema().toString();
-            System.out.println("-----------------------");
+            System.out.println("------------------------");
             BatchOperator.execute();
 
             //解析出schema
