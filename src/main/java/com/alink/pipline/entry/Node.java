@@ -41,10 +41,6 @@ public class Node {
 
 
 
-    public List<StreamOperator> getFixedOP() {
-        return fixedOP;
-    }
-
     public StreamOperator[] getFixedOParray() {
         StreamOperator[] operators = new StreamOperator[fixedOP.size()];
         return fixedOP.toArray(operators);
@@ -58,6 +54,9 @@ public class Node {
     }
 
 
+    public List<StreamOperator> getFixedOP() {
+        return fixedOP;
+    }
     public Set<Node> getPrev() {
         return prev;
     }
@@ -72,28 +71,6 @@ public class Node {
 
     public void setNext(Set<Node> next) {
         this.next = next;
-    }
-
-    public Node(String id, String name, String icon, String category,
-                String operator, List<String> children, HashMap<String, String> nodeParam,
-                int positionX, int positionY, boolean showStatus, String class_id, List<OutPorts> outPorts,
-                List<InPorts> inPorts, Set<Node> prev, Set<Node> next, int status) {
-        this.id = id;
-        this.name = name;
-        this.icon = icon;
-        this.category = category;
-        this.operator = operator;
-        this.children = children;
-        this.nodeParam = nodeParam;
-        this.positionX = positionX;
-        this.positionY = positionY;
-        this.showStatus = showStatus;
-        this.class_id = class_id;
-        this.outPorts = outPorts;
-        this.inPorts = inPorts;
-        this.prev = prev;
-        this.next = next;
-        this.status = status;
     }
 
     @Override
