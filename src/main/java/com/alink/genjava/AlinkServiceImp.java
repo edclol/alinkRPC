@@ -103,7 +103,7 @@ public class AlinkServiceImp implements AlinkService.Iface {
 
     @Override
     public String alinkMinMaxScaler(String parameter) throws TException {
-        return null;
+        return new MinMaxScalerr().fit(parameter);
     }
 
     @Override
@@ -145,7 +145,8 @@ public class AlinkServiceImp implements AlinkService.Iface {
 
     @Override
     public String alinkSoftmax(String parameter) throws TException {
-        return new MinMaxScalerr().fit(parameter);
+        return null;
     }
+
 
 }

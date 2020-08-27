@@ -108,7 +108,8 @@ public final class Utils {
 
         try {
 
-            String rrr = "/root/schema"+path.substring(20)+ "_schema" ;
+            String rrr = "/root/schema" + path.substring(path.lastIndexOf("/")) + "_schema" ;
+            System.out.println("schema_path" + rrr );
 //            logger.info(rrr);
             System.out.println(rrr);
             FSDataInputStream in = new HadoopFileSystem(uri).open(rrr);
@@ -259,5 +260,15 @@ public final class Utils {
         paramsBase.setParams(map);
         String s = pGson.toJson(map);
         System.out.println(s);
+    }
+
+    public static String[] StringToFeature(String path, String url){
+        String str = getSchema(path, url);
+        System.out.println("test output shema");
+        String[] arr = str.split(" , ");
+        for(int i=0; i<arr.length; i++){
+            arr[i] = arr[i].substring(0, arr[i].indexOf(" "));
+        }
+        return  arr;
     }
 }
