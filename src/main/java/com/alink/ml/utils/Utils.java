@@ -1,5 +1,6 @@
 package com.alink.ml.utils;
 
+
 import com.alibaba.alink.common.io.filesystem.HadoopFileSystem;
 import com.alibaba.alink.operator.batch.BatchOperator;
 import com.alibaba.alink.operator.batch.source.CsvSourceBatchOp;
@@ -17,6 +18,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
@@ -264,11 +266,35 @@ public final class Utils {
 
     public static String[] StringToFeature(String path, String url){
         String str = getSchema(path, url);
-        System.out.println("test output shema");
         String[] arr = str.split(" , ");
+
         for(int i=0; i<arr.length; i++){
             arr[i] = arr[i].substring(0, arr[i].indexOf(" "));
         }
         return  arr;
     }
+
+    public static HashMap<String, String[]> StringToFeatureLabel(String path, String url){
+        String str = getSchema(path, url);
+        String[] arr = str.split(" , ");
+
+        String[] fea = new String[arr.length-1];
+        String[] label = new String[1];
+
+        for(int i=0; i<arr.length; i++){
+            if(i != fea.length){
+                fea[i] = arr[i].substring(0, arr[i].indexOf(" "));
+                System.out.println(fea[i]);
+            }else {
+                label[0] = arr[i].substring(0, arr[i].indexOf(" "));
+                break;
+            }
+        }
+        System.out.println("feature_length:"+fea.length);
+        HashMap<String, String[]> hashMap = new HashMap<>();
+        hashMap.put("fea", fea);
+        hashMap.put("label", label);
+        return hashMap;
+    }
+
 }

@@ -4,13 +4,12 @@ import com.alibaba.alink.common.io.filesystem.HadoopFileSystem;
 import com.alibaba.alink.operator.batch.BatchOperator;
 import com.alibaba.alink.operator.batch.sink.CsvSinkBatchOp;
 import com.alibaba.alink.operator.batch.source.CsvSourceBatchOp;
-import com.alibaba.alink.operator.batch.sql.SelectBatchOp;
+
 import com.alibaba.alink.operator.batch.sql.UnionAllBatchOp;
 import com.alibaba.alink.pipeline.Pipeline;
 import com.alibaba.alink.pipeline.PipelineModel;
 import com.alibaba.alink.pipeline.dataproc.MinMaxScaler;
-import com.alibaba.alink.pipeline.dataproc.MinMaxScalerModel;
-import com.alink.ml.sql.SelectBatchOpp;
+
 import com.alink.ml.utils.Config;
 import com.alink.ml.utils.Utils;
 import org.apache.flink.core.fs.FSDataOutputStream;
@@ -26,7 +25,7 @@ import org.apache.logging.log4j.Logger;
  * Created by yh on 2020/8/25 下午6:00
  */
 public class MinMaxScalerr   {
-    public static Logger logger = LogManager.getLogger(SelectBatchOpp.class);
+    public static Logger logger = LogManager.getLogger(MinMaxScaler.class);
 
     public String fit(String parameter) {
         String str = "[{\"type\": \"dataframe\", \"schema\": [{\"column_name\": \"fea_0\"}]]";
@@ -38,16 +37,10 @@ public class MinMaxScalerr   {
             BatchOperator trainData = getBatchOp(map.getOrDefault("input_data_path", "hdfs:/data/iris.csv"), Config.HADOOP_FSURI);
             Double min = Double.valueOf(map.getOrDefault("min", "0.0"));
             Double max = Double.valueOf(map.getOrDefault("max", "1.0"));
-            String outputCols = map.getOrDefault("outputCols", "outputCols");
             String[] selecetCols = Utils.StringToFeature(map.getOrDefault("input_data_path", "none"), Config.HADOOP_FSURI);
-            for(String i: selecetCols){
-                System.out.println(i);
-            }
 
-            System.out.println(selecetCols);
-            System.out.println("ddddddddd");
             //修改数据
-            Pipeline pipeline = new Pipeline().add(new MinMaxScaler().setMin(min).setMax(max).setSelectedCols(selecetCols).setOutputCols(outputCols));
+            Pipeline pipeline = new Pipeline().add(new MinMaxScaler().setMin(min).setMax(max).setSelectedCols(selecetCols));
             PipelineModel model = pipeline.fit(trainData);
             BatchOperator finData = model.transform(trainData);
 

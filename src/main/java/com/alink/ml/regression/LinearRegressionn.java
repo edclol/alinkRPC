@@ -29,15 +29,27 @@ public class LinearRegressionn {
             System.out.println(map);
 
             BatchOperator trainData = getBatchOp(map.getOrDefault("input_data_path", "hdfs:/data/iris.csv"), Config.HADOOP_FSURI);
-            String output_model_path = map.getOrDefault("output_model_path", "null");
-            String optimmethod = map.getOrDefault("optimmethod", "null");
+            String outputModelPath = map.getOrDefault("output_model_path", "null");
+            String optimMethod = map.getOrDefault("optimmethod", "null");
             Double l1 = Double.valueOf(map.getOrDefault("l1", "0.0"));
             Double l2 = Double.valueOf(map.getOrDefault("l2", "0.0"));
-            String predictioncol = map.getOrDefault("predictioncol", "prep");
+            String predictionCol = map.getOrDefault("predictioncol", "prep");
             Boolean withIntercept = Boolean.valueOf(map.getOrDefault("withIntercept", "True"));
             int maxIter = Integer.parseInt(map.getOrDefault("maxIter", "100"));
             Double epsilon = Double.valueOf(map.getOrDefault("epsilon", "1.0E-6"));
             Boolean standardization = Boolean.valueOf(map.getOrDefault("standardization", "True"));
+            HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(map.getOrDefault("input_data_path", "none"), Config.HADOOP_FSURI);
+            String[] fea = feaLab.get("fea");
+            String label = feaLab.get("label")[0];
+
+            for(String i: fea){
+                System.out.println(i);
+            }
+            System.out.println(label);
+
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
