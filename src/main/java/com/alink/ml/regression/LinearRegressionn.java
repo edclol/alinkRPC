@@ -29,6 +29,7 @@ public class LinearRegressionn {
             HashMap<String, String> map = Utils.json2map(parameter);
             //获取数据源
             System.out.println(map);
+            System.out.println("ok");
 
             BatchOperator trainData = readBatchOpFromHDFS(map.getOrDefault("input_data_path", "hdfs:/data/iris.csv"));
             String outputModelPath = map.getOrDefault("output_model_path", "null");
