@@ -45,6 +45,7 @@ public class MinMaxScalerr   {
             BatchOperator finData = model.transform(trainData);
 
 
+
             //存储数据
             String output_data_path = map.getOrDefault("output_data_path", "hdfs:/data/iris.csv");
             String model_path = output_data_path + "_model";

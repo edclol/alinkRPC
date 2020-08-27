@@ -1,6 +1,8 @@
 package com.alink.ml.regression;
 
 import com.alibaba.alink.operator.batch.BatchOperator;
+import com.alibaba.alink.pipeline.Pipeline;
+import com.alibaba.alink.pipeline.PipelineModel;
 import com.alibaba.alink.pipeline.PipelineStageBase;
 import com.alibaba.alink.pipeline.regression.LinearRegression;
 import com.alink.ml.sql.SelectBatchOpp;
@@ -22,7 +24,7 @@ public class LinearRegressionn {
     public static Logger logger = LogManager.getLogger(SelectBatchOpp.class);
 
     public String fit(String parameter) {
-        String str = "[{\"type\": \"dataframe\", \"schema\": [{\"column_name\": \"fea_0\"}]]";
+        String str = "{\"type\": \"ml model\"}";
         try {
             HashMap<String, String> map = Utils.json2map(parameter);
             //获取数据源
@@ -42,12 +44,26 @@ public class LinearRegressionn {
             String[] fea = feaLab.get("fea");
             String label = feaLab.get("label")[0];
 
-            for(String i: fea){
-                System.out.println(i);
-            }
-            System.out.println(label);
+            Pipeline pipeline = new Pipeline().add(
+                    new LinearRegression()
+                            .setFeatureCols(fea)
+                            .setLabelCol(label)
+                            .setL1(l1)
+                            .setL2(l2)
+                            .setMaxIter(maxIter)
+                            .setEpsilon(epsilon)
+                            .setStandardization(standardization)
+                            .setWithIntercept(withIntercept)
+                            .setOptimMethod(optimMethod)
+                            .setPredictionCol(predictionCol));
 
+            PipelineModel model = pipeline.fit(trainData);
 
+            //存储数据
+            String modelPath = outputModelPath + "_model";
+            modelPath = Config.HADOOP_FSURI + modelPath.substring(5);
+
+            model.save(modelPath);
 
 
         } catch (Exception e) {

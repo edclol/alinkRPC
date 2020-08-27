@@ -112,7 +112,6 @@ public final class Utils {
 
             String rrr = "/root/schema" + path.substring(path.lastIndexOf("/")) + "_schema" ;
             System.out.println("schema_path" + rrr );
-//            logger.info(rrr);
             System.out.println(rrr);
             FSDataInputStream in = new HadoopFileSystem(uri).open(rrr);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -238,7 +237,6 @@ public final class Utils {
 
     //测试用
     public static void main(String[] args) throws Exception {
-
 //        BatchOperator batchOp = getBatchOp("/user/experiment/tmp/0131b504-ac6c-11ea-a731-000c2960831c-110", Config.HADOOP_FSURI);
 //        System.out.println(batchOp.count());
 
@@ -249,7 +247,6 @@ public final class Utils {
 //        System.out.println(str.substring(1, str.length() - 1));
 //
 //        System.out.println(Double.valueOf("222"));
-
 
 
         String sss = "{\"input_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-100\", \"output_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-90\", \"clause\": \"fea_0,fea_1,fea_2\"}";
