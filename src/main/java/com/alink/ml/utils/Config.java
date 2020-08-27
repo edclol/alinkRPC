@@ -7,11 +7,11 @@ package com.alink.ml.utils;
  */
 public final class Config {
 
-    public static final String HADOOP_FSURI = "hdfs://master:9000";
+    public static final String HADOOP_FSURI = "hdfs://172.16.1.127:9000";
 
     public static final int THRIFT_SERVER_PORT = 8091;
-    public static final String THRIFT_SERVER_IP = "172.16.1.2";
-    public static final int THRIFT_CLIENT_TIMEOUT = 30000;
+    public static final String THRIFT_SERVER_IP = "172.16.1.213";
+    public static final int THRIFT_CLIENT_TIMEOUT = 10000;
 
 
     public static final String ZOOKEEPER_HOST = "172.16.2.114:2181,172.16.2.115:2181,172.16.2.116:2181";
