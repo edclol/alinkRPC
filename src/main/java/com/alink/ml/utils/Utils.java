@@ -2,21 +2,26 @@ package com.alink.ml.utils;
 
 import com.alibaba.alink.common.io.filesystem.HadoopFileSystem;
 import com.alibaba.alink.operator.batch.BatchOperator;
+import com.alibaba.alink.operator.batch.sink.CsvSinkBatchOp;
 import com.alibaba.alink.operator.batch.source.CsvSourceBatchOp;
 import com.alibaba.alink.operator.batch.sql.UnionAllBatchOp;
 import com.alink.ml.test.ParamsBase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.flink.core.fs.FSDataInputStream;
+import org.apache.flink.core.fs.FSDataOutputStream;
+import org.apache.flink.core.fs.FileSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
@@ -35,38 +40,104 @@ public final class Utils {
     public static Logger logger = LogManager.getLogger(Utils.class);
 
     /**
-     * 读取hdfs上的csv文件 或者文件夹下的所有csv文件
-     *
-     * @param path "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
-     * @param uri  "hdfs://master:9000"
+     * 存储数据更新schame 返回解析后并处理的schema
+     * @param map
+     * @param batchOperator
      * @return
      */
-    public static BatchOperator getBatchOp(String path, String uri) {
-        try {
+    public static String saveDFAndSchema2str(HashMap<String, String> map, BatchOperator batchOperator) {
+        //存储数据
+        String input_data_path = map.getOrDefault("output_data_path", "hdfs:/data/iris.csv");
+        input_data_path = Config.HADOOP_FSURI + input_data_path.substring(5);
 
-            path = path.substring(5);
+
+        System.out.println("存储数据  " + input_data_path);
+
+        CsvSinkBatchOp csvSink = new CsvSinkBatchOp().setOverwriteSink(true).setFilePath(input_data_path);
+        csvSink.linkFrom(batchOperator);
+
+        String s = batchOperator.getSchema().toString();
+        System.out.println("-----------------------");
+
+        //解析出schema
+        String s1 = s.replaceAll("\\n|:", "")
+                .replace("root |-- ", "")
+                .replaceAll("\\|--", ",");
+        System.out.println("解析出schema" + s1);
+
+        //存储schema
+
+        FSDataOutputStream fs=null;
+        try{
+
+            String outpath = "/root/schema" + map.getOrDefault("input_data_path", "hdfs:/data/iris.csv").substring(20) + "_schema";
+            System.out.println("存储schema " + outpath);
+            HadoopFileSystem hdfs = new HadoopFileSystem(Config.HADOOP_FSURI);
+            fs = hdfs.create(outpath, FileSystem.WriteMode.OVERWRITE);
+            fs.write(s1.getBytes());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fs.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        //返回
+        ArrayList<HashMap<String, String>> list = new ArrayList<>();
+        for (String s2 : s1.split(",")) {
+            String[] s4 = s2.trim().split(" ");
+            HashMap<String, String> map1 = new HashMap<>();
+            map1.put("column_name", s4[0]);
+            map1.put("column_type", s4[1]);
+            list.add(map1);
+        }
+
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("type", "dataframe");
+        map1.put("schema", list);
+
+        ArrayList<Object> list1 = new ArrayList<>();
+        list1.add(map1);
+        return Utils.pGson.toJson(list1);
+    }
+    /**
+     * 读取hdfs上的csv文件 或者文件夹下的所有csv文件
+     *
+     * @param str "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
+     * @param "hdfs://master:9000"
+     * @return
+     */
+    public static BatchOperator readBatchOpFromHDFS(String str) {
+        try {
+            //读取hadoop上schema的数据
+            String schemaStr = readSchemaFromHDFS(str);
+
+            //截掉不需要的hdfs： 前缀 /user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00
+            String path = str.substring(5);
 
             logger.info("path is " + path);
             System.out.println("path is " + path);
 
-            String schemaStr = getSchema(path, uri);
 
             logger.info("schemaStr  is " + schemaStr);
             System.out.println("schemaStr  is " + schemaStr);
 
-            HadoopFileSystem hdfs = new HadoopFileSystem(uri);
-
+            //分情况读取所有的数据 读取成BatchOpertor并返回
+            HadoopFileSystem hdfs = new HadoopFileSystem(Config.HADOOP_FSURI);
             if (hdfs.getFileStatus(path).isDir()) {
 
                 List<String> strings = hdfs.listFiles(path);
-
                 BatchOperator[] Batch = new BatchOperator[strings.size() - 1];
-
                 int i = 0;
                 for (String string : strings) {
-                    if (!string.equals(uri + path + "/_SUCCESS")) {
+                    if (!string.equals(Config.HADOOP_FSURI + path + "/_SUCCESS")) {
 
-                        logger.info("遍历的目录地址 " + string);
+//                        logger.info("遍历的目录地址 " + string);
                         CsvSourceBatchOp csvSourceBatchOp = new CsvSourceBatchOp()
                                 .setFilePath(string)
                                 .setSchemaStr(schemaStr)
@@ -78,13 +149,15 @@ public final class Utils {
 
                 return new UnionAllBatchOp().linkFrom(Batch);
             } else {
+
                 CsvSourceBatchOp csvSourceBatchOp = new CsvSourceBatchOp()
-                        .setFilePath(uri + path)
+                        .setFilePath(Config.HADOOP_FSURI + path)
                         .setSchemaStr(schemaStr)
                         .setIgnoreFirstLine(true);
-                System.out.println("getBatch  jieshu");
+
                 return csvSourceBatchOp;
             }
+
         } catch (Exception e) {
             logger.error(e);
             e.printStackTrace();
@@ -100,21 +173,21 @@ public final class Utils {
     /**
      * 从hdfs上读取schema文件 获取schemaStr
      *
-     * @param path "/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
-     * @param uri  "hdfs://master:9000"
+     * @param path "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
+     * @param "hdfs://master:9000"
      * @return "f0 double,f1 int"
      */
-    public static String getSchema(String path, String uri) {
+    public static String readSchemaFromHDFS(String path) {
 
         try {
+            path = path.substring(5);
+            String rrr = "/root/schema" + path.substring(path.lastIndexOf("/")) + "_schema" ;
+            System.out.println("schema_path" + rrr );
 
-            String rrr = "/root/schema"+path.substring(20)+ "_schema" ;
-//            logger.info(rrr);
-            System.out.println(rrr);
-            FSDataInputStream in = new HadoopFileSystem(uri).open(rrr);
+            FSDataInputStream in = new HadoopFileSystem(Config.HADOOP_FSURI).open(rrr);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             String s = bufferedReader.readLine();
-            System.out.println("getSchema  "+s);
+            System.out.println("getSchema  " + s);
             return s.trim();
         } catch (IOException e) {
             System.out.println("getSchema  error");
@@ -134,7 +207,7 @@ public final class Utils {
         HashMap map = pGson.fromJson(para, HashMap.class);
         logger.info("json2map params is " + map);
         HashMap<String, String> map1 = new HashMap<>();
-        map.forEach((o, o2) -> map1.put(o.toString(),o2.toString()));
+        map.forEach((o, o2) -> map1.put(o.toString(), o2.toString()));
         return map1;
     }
 
@@ -193,8 +266,6 @@ public final class Utils {
         }
 
     }
-
-
 
 
     /**
@@ -260,4 +331,38 @@ public final class Utils {
         String s = pGson.toJson(map);
         System.out.println(s);
     }
+
+    public static String[] StringToFeature(String path){
+        String str = readSchemaFromHDFS(path);
+        String[] arr = str.split(" , ");
+
+        for(int i=0; i<arr.length; i++){
+            arr[i] = arr[i].substring(0, arr[i].indexOf(" "));
+        }
+        return  arr;
+    }
+
+    public static HashMap<String, String[]> StringToFeatureLabel(String path){
+        String str = readSchemaFromHDFS(path);
+        String[] arr = str.split(" , ");
+
+        String[] fea = new String[arr.length-1];
+        String[] label = new String[1];
+
+        for(int i=0; i<arr.length; i++){
+            if(i != fea.length){
+                fea[i] = arr[i].substring(0, arr[i].indexOf(" "));
+                System.out.println(fea[i]);
+            }else {
+                label[0] = arr[i].substring(0, arr[i].indexOf(" "));
+                break;
+            }
+        }
+        System.out.println("feature_length:"+fea.length);
+        HashMap<String, String[]> hashMap = new HashMap<>();
+        hashMap.put("fea", fea);
+        hashMap.put("label", label);
+        return hashMap;
+    }
+
 }

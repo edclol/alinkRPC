@@ -1,6 +1,7 @@
 package com.alink.pipline.opreter;
 
 import com.alibaba.alink.operator.stream.StreamOperator;
+import com.alink.ml.utils.Utils;
 import com.alink.pipline.entry.AlinkCanvas;
 import com.alink.pipline.entry.Node;
 import com.google.gson.Gson;
@@ -32,22 +33,23 @@ public class AlinkStreamService {
                 "nodeParam\":{\"input_shape\":\"\",\"batch_size\":\"\",\"batch_input_shape\":\"123\",\"dtype\":\"None\",\"input_tensor\":\"None\",\"sparse\":\"None\",\"name\":\"None\"}," +
                 "\"positionX\":427,\"positionY\":143,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"2_0\"}],\"inPorts\":[{\"id\":\"2_0\"}]},{\"id\":3,\"name\":\"Softmax\",\"icon\":\"task-icon-41\",\"category\":\"07\",\"operator\":\"Softmax\",\"children\":[],\"nodeParam\":{\"axis\":\"-1\"},\"positionX\":201,\"positionY\":221,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"3_0\"}],\"inPorts\":[{\"id\":\"3_0\",\"isConnected\":true}]},{\"id\":4,\"name\":\"Add\",\"icon\":\"task-icon-41\",\"category\":\"ml\",\"operator\":\"Add\",\"children\":[],\"nodeParam\":{},\"positionX\":313,\"positionY\":330,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"4_0\"}],\"inPorts\":[{\"id\":\"4_0\",\"isConnected\":true}]},{\"id\":5,\"name\":\"Softmax\",\"icon\":\"task-icon-41\",\"category\":\"07\",\"operator\":\"Softmax\",\"children\":[],\"nodeParam\":{\"axis\":\"-1\"},\"positionX\":298,\"positionY\":406,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"5_0\"}],\"inPorts\":[{\"id\":\"5_0\",\"isConnected\":true}]}],\"paths\":[{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"4_0\",\"endPort\":5,\"startId\":4,\"endId\":5},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"2_0\",\"endPort\":4,\"startId\":2,\"endId\":4},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"3_0\",\"endPort\":4,\"startId\":3,\"endId\":4},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"1_0\",\"endPort\":3,\"startId\":1,\"endId\":3}]}";
 
+        String json9 = "{\"nodes\":[{\"id\":\"node10\",\"name\":\"InputLayer\",\"icon\":\"task-icon-41\",\"category\":\"02\",\"operator\":\"InputLayer\",\"children\":[],\"nodeParam\":{\"input_shape\":\"\",\"batch_size\":\"None\",\"batch_input_shape\":\"None\",\"dtype\":\"None\",\"input_tensor\":\"None\",\"sparse\":\"None\",\"name\":\"None\"},\"positionX\":291,\"positionY\":99,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node10_0\"}],\"inPorts\":[{\"id\":\"node10_0\"}]},{\"id\":\"node11\",\"name\":\"Layer\",\"icon\":\"task-icon-41\",\"category\":\"04\",\"operator\":\"Layer\",\"children\":[],\"nodeParam\":{},\"positionX\":121,\"positionY\":193,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node11_0\"}],\"inPorts\":[{\"id\":\"node11_0\",\"isConnected\":true}]},{\"id\":\"node12\",\"name\":\"Layer\",\"icon\":\"task-icon-41\",\"category\":\"04\",\"operator\":\"Layer\",\"children\":[],\"nodeParam\":{},\"positionX\":319,\"positionY\":361,\"showStatus\":true,\"class_id\":null,\"outPorts\":[{\"id\":\"node12_0\"}],\"inPorts\":[{\"id\":\"node12_0\",\"isConnected\":true}]}],\"paths\":[{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node10_0\",\"endPort\":\"node11\",\"startId\":\"node10\",\"endId\":\"node11\"},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node11_0\",\"endPort\":\"node12\",\"startId\":\"node11\",\"endId\":\"node12\"},{\"dotted\":false,\"ptype\":\"Q\",\"startPort\":\"node10_0\",\"endPort\":\"node12\",\"startId\":\"node10\",\"endId\":\"node12\"}]}";
 
-        json2alink(json8);
+        json2alink(json9);
 
     }
 
     private static void json2alink(String json) throws Exception {
 
-
-        Gson gson = new Gson();
-        AlinkCanvas data = gson.fromJson(json, AlinkCanvas.class);
+        AlinkCanvas data = Utils.pGson.fromJson(json, AlinkCanvas.class);
+        System.out.println(data);
 
 
         HashMap<String, Node> map = new HashMap<>();
         for (Node node : data.getNodes()) {
             map.put(node.getId(), node);
         }
+        System.out.println(map);
 
 
         //把边信息加入到node里面,组成链表
@@ -63,11 +65,19 @@ public class AlinkStreamService {
         run(inNode.get(0));
 
         StreamOperator streamOperator = outNode.get(0).getFixedOP().get(0);
+        streamOperator.print();
         StreamOperator.execute();
 
 
     }
 
+    /**
+     * 递归遍历node 把所有的StreamOP连接起来
+     * @param inNode
+     * @throws ClassNotFoundException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
     private static void run(Node inNode) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
         //检查之前的节点是否全部运行
