@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
-import static com.alink.ml.utils.Utils.getBatchOp;
+import static com.alink.ml.utils.Utils.readBatchOpFromHDFS;
 
 /**
  * Created by edc on 2020/8/14
@@ -30,7 +30,7 @@ public class LinearRegressionn {
             //获取数据源
             System.out.println(map);
 
-            BatchOperator trainData = getBatchOp(map.getOrDefault("input_data_path", "hdfs:/data/iris.csv"), Config.HADOOP_FSURI);
+            BatchOperator trainData = readBatchOpFromHDFS(map.getOrDefault("input_data_path", "hdfs:/data/iris.csv"));
             String outputModelPath = map.getOrDefault("output_model_path", "null");
             String optimMethod = map.getOrDefault("optimmethod", "null");
             Double l1 = Double.valueOf(map.getOrDefault("l1", "0.0"));
@@ -40,7 +40,8 @@ public class LinearRegressionn {
             int maxIter = Integer.parseInt(map.getOrDefault("maxIter", "100"));
             Double epsilon = Double.valueOf(map.getOrDefault("epsilon", "1.0E-6"));
             Boolean standardization = Boolean.valueOf(map.getOrDefault("standardization", "True"));
-            HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(map.getOrDefault("input_data_path", "none"), Config.HADOOP_FSURI);
+
+            HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(map.getOrDefault("input_data_path", "none"));
             String[] fea = feaLab.get("fea");
             String label = feaLab.get("label")[0];
 

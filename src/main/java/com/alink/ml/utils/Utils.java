@@ -181,12 +181,9 @@ public final class Utils {
 
         try {
             path = path.substring(5);
-            String rrr = "/root/schema" + path.substring(20) + "_schema";
-//            logger.info(rrr);
-
             String rrr = "/root/schema" + path.substring(path.lastIndexOf("/")) + "_schema" ;
             System.out.println("schema_path" + rrr );
-            System.out.println(rrr);
+
             FSDataInputStream in = new HadoopFileSystem(Config.HADOOP_FSURI).open(rrr);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
             String s = bufferedReader.readLine();
@@ -335,8 +332,8 @@ public final class Utils {
         System.out.println(s);
     }
 
-    public static String[] StringToFeature(String path, String url){
-        String str = getSchema(path, url);
+    public static String[] StringToFeature(String path){
+        String str = readSchemaFromHDFS(path);
         String[] arr = str.split(" , ");
 
         for(int i=0; i<arr.length; i++){
@@ -345,8 +342,8 @@ public final class Utils {
         return  arr;
     }
 
-    public static HashMap<String, String[]> StringToFeatureLabel(String path, String url){
-        String str = getSchema(path, url);
+    public static HashMap<String, String[]> StringToFeatureLabel(String path){
+        String str = readSchemaFromHDFS(path);
         String[] arr = str.split(" , ");
 
         String[] fea = new String[arr.length-1];
