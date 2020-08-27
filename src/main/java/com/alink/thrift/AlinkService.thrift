@@ -7,7 +7,7 @@ service AlinkService {
     string alinkLogisticRegression(1: string parameter);
     string alinkMultilayerPerceptronClassifier(1: string parameter);
     string alinkNaiveBayesTextClassifier(1: string parameter);
-//    string alinkOneVsRest(1: string parameter); 暂时不要了
+//    string alinkOneVsRest(1: string parameter); 暂时不要了啊
     string alinkRandomForestClassifier(1: string parameter);
     string alinkSoftmax(1: string parameter);
     string alinkALSS(1: string parameter);
