@@ -4,6 +4,7 @@ package com.alink.genjava;
 import com.alink.ml.classification.DecisionTreeClassifierr;
 import com.alink.ml.classification.RandomForestClassifierr;
 import com.alink.ml.dataETL.MinMaxScalerr;
+import com.alink.ml.regression.LinearRegressionn;
 import com.alink.ml.sql.SelectBatchOpp;
 import org.apache.thrift.TException;
 import java.time.LocalDateTime;
@@ -62,7 +63,7 @@ public class AlinkServiceImp implements AlinkService.Iface {
 
     @Override
     public String alinkLinearRegression(String parameter) throws TException {
-        return null;
+        return new LinearRegressionn().fit(parameter);
     }
 
     @Override
@@ -102,7 +103,7 @@ public class AlinkServiceImp implements AlinkService.Iface {
 
     @Override
     public String alinkMinMaxScaler(String parameter) throws TException {
-        return null;
+        return new MinMaxScalerr().fit(parameter);
     }
 
     @Override
@@ -144,7 +145,10 @@ public class AlinkServiceImp implements AlinkService.Iface {
 
     @Override
     public String alinkSoftmax(String parameter) throws TException {
-        return new MinMaxScalerr().fit(parameter);
+        return null;
     }
+
+
+
 
 }

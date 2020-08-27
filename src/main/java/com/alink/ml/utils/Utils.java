@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * 常用工具类
@@ -181,6 +183,9 @@ public final class Utils {
             path = path.substring(5);
             String rrr = "/root/schema" + path.substring(20) + "_schema";
 //            logger.info(rrr);
+
+            String rrr = "/root/schema" + path.substring(path.lastIndexOf("/")) + "_schema" ;
+            System.out.println("schema_path" + rrr );
             System.out.println(rrr);
             FSDataInputStream in = new HadoopFileSystem(Config.HADOOP_FSURI).open(rrr);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -317,6 +322,7 @@ public final class Utils {
 //        System.out.println(Double.valueOf("222"));
 
 
+
         String sss = "{\"input_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-100\", \"output_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-90\", \"clause\": \"fea_0,fea_1,fea_2\"}";
         System.out.println(Utils.json2map(sss));
 
@@ -328,4 +334,38 @@ public final class Utils {
         String s = pGson.toJson(map);
         System.out.println(s);
     }
+
+    public static String[] StringToFeature(String path, String url){
+        String str = getSchema(path, url);
+        String[] arr = str.split(" , ");
+
+        for(int i=0; i<arr.length; i++){
+            arr[i] = arr[i].substring(0, arr[i].indexOf(" "));
+        }
+        return  arr;
+    }
+
+    public static HashMap<String, String[]> StringToFeatureLabel(String path, String url){
+        String str = getSchema(path, url);
+        String[] arr = str.split(" , ");
+
+        String[] fea = new String[arr.length-1];
+        String[] label = new String[1];
+
+        for(int i=0; i<arr.length; i++){
+            if(i != fea.length){
+                fea[i] = arr[i].substring(0, arr[i].indexOf(" "));
+                System.out.println(fea[i]);
+            }else {
+                label[0] = arr[i].substring(0, arr[i].indexOf(" "));
+                break;
+            }
+        }
+        System.out.println("feature_length:"+fea.length);
+        HashMap<String, String[]> hashMap = new HashMap<>();
+        hashMap.put("fea", fea);
+        hashMap.put("label", label);
+        return hashMap;
+    }
+
 }
