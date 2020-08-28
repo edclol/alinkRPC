@@ -20,17 +20,22 @@ public interface BaseModule {
      */
     default String fit(String parameter) {
         HashMap<String, String> params = Utils.json2map(parameter);
+
+        //读取hadoop上schema的数据
+        String schemaStr = Utils.readSchemaFromHDFS(params);
+
         //获取数据源
-        BatchOperator trainData = Utils.readBatchOpFromHDFS(params.getOrDefault("input_data_path", "hdfs:/data/iris.csv"));
+        BatchOperator trainData = Utils.readBatchOpFromHDFS(params,schemaStr);
 
         //获取module
-        PipelineStageBase module = getModule(params);
+        PipelineStageBase module = getModule(params,schemaStr);
+
         //构建管道
         Pipeline pipeline = new Pipeline().add(module);
         PipelineModel pipelineModel = pipeline.fit(trainData);
-        //存储模型
-        String savePath = Config.HADOOP_FSURI + params.getOrDefault("input_data_path", "hdfs:/data/iris.csv").substring(5) + "_module";
 
+        //存储模型
+        String savePath = Config.HADOOP_FSURI + params.getOrDefault("output_model_path", "hdfs:/data/iris.csv").substring(5) + "_module";
         pipelineModel.save(savePath);
 
         return "{\"type\": \"ml model\"}";
@@ -43,5 +48,5 @@ public interface BaseModule {
      * @param map
      * @return
      */
-    PipelineStageBase getModule(HashMap<String, String> map);
+    PipelineStageBase getModule(HashMap<String, String> map,String schemaStr);
 }

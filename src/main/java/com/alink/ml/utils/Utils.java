@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * 常用工具类
@@ -40,45 +38,43 @@ public final class Utils {
     public static Logger logger = LogManager.getLogger(Utils.class);
 
 
-
-
     /**
      * 解析出特征列
-     * @param path
+     *
+     * @param schemastr
      * @return
      */
-    public static String[] StringToFeature(String path){
-        String str = readSchemaFromHDFS(path);
-        String[] arr = str.split(" , ");
-
-        for(int i=0; i<arr.length; i++){
+    public static String[] StringToFeature(String schemastr) {
+        String[] arr = schemastr.split(" , ");
+        for (int i = 0; i < arr.length; i++) {
             arr[i] = arr[i].substring(0, arr[i].indexOf(" "));
         }
-        return  arr;
+        return arr;
     }
 
     /**
      * 解析出特征和标签列
-     * @param path
+     *
+     * @param schemastr
      * @return
      */
-    public static HashMap<String, String[]> StringToFeatureLabel(String path){
-        String str = readSchemaFromHDFS(path);
-        String[] arr = str.split(" , ");
+    public static HashMap<String, String[]> StringToFeatureLabel(String schemastr) {
 
-        String[] fea = new String[arr.length-1];
+        String[] arr = schemastr.split(" , ");
+
+        String[] fea = new String[arr.length - 1];
         String[] label = new String[1];
 
-        for(int i=0; i<arr.length; i++){
-            if(i != fea.length){
+        for (int i = 0; i < arr.length; i++) {
+            if (i != fea.length) {
                 fea[i] = arr[i].substring(0, arr[i].indexOf(" "));
                 System.out.println(fea[i]);
-            }else {
+            } else {
                 label[0] = arr[i].substring(0, arr[i].indexOf(" "));
                 break;
             }
         }
-        System.out.println("feature_length:"+fea.length);
+        System.out.println("feature_length:" + fea.length);
         HashMap<String, String[]> hashMap = new HashMap<>();
         hashMap.put("fea", fea);
         hashMap.put("label", label);
@@ -87,6 +83,7 @@ public final class Utils {
 
     /**
      * 存储数据更新schame 返回解析后并处理的schema
+     *
      * @param map
      * @param batchOperator
      * @return
@@ -113,8 +110,8 @@ public final class Utils {
 
         //存储schema
 
-        FSDataOutputStream fs=null;
-        try{
+        FSDataOutputStream fs = null;
+        try {
 
             String outpath = "/root/schema" + map.getOrDefault("input_data_path", "hdfs:/data/iris.csv").substring(20) + "_schema";
             System.out.println("存储schema " + outpath);
@@ -151,20 +148,19 @@ public final class Utils {
         list1.add(map1);
         return Utils.pGson.toJson(list1);
     }
+
     /**
      * 读取hdfs上的csv文件 或者文件夹下的所有csv文件
      *
-     * @param str "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
+     * @param str                  "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
      * @param "hdfs://master:9000"
      * @return
      */
-    public static BatchOperator readBatchOpFromHDFS(String str) {
+    public static BatchOperator readBatchOpFromHDFS(HashMap<String, String> params, String schemaStr) {
         try {
-            //读取hadoop上schema的数据
-            String schemaStr = readSchemaFromHDFS(str);
 
             //截掉不需要的hdfs： 前缀 /user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00
-            String path = str.substring(5);
+            String path = params.getOrDefault("input_data_path", "hdfs:/data/iris.csv").substring(5);
 
             logger.info("path is " + path);
             System.out.println("path is " + path);
@@ -219,16 +215,18 @@ public final class Utils {
     /**
      * 从hdfs上读取schema文件 获取schemaStr
      *
-     * @param path "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
+     * @param path                 "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
      * @param "hdfs://master:9000"
      * @return "f0 double,f1 int"
      */
-    public static String readSchemaFromHDFS(String path) {
+    public static String readSchemaFromHDFS(HashMap<String, String> params) {
 
         try {
-            path = path.substring(5);
-            String rrr = "/root/schema" + path.substring(path.lastIndexOf("/")) + "_schema" ;
-            System.out.println("schema_path" + rrr );
+            String input_data_path = params.getOrDefault("input_data_path", "hdfs:/data/iris.csv");
+
+            String path1 = input_data_path.substring(5);
+            String rrr = "/root/schema" + path1.substring(path1.lastIndexOf("/")) + "_schema";
+            System.out.println("schema_path" + rrr);
 
             FSDataInputStream in = new HadoopFileSystem(Config.HADOOP_FSURI).open(rrr);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -365,7 +363,6 @@ public final class Utils {
 //        System.out.println(Double.valueOf("222"));
 
 
-
         String sss = "{\"input_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-100\", \"output_data_path\": \"hdfs:/user/experiment/tmp/1e139b2c-d789-11ea-b72e-000c29c9d8a2-90\", \"clause\": \"fea_0,fea_1,fea_2\"}";
         System.out.println(Utils.json2map(sss));
 
@@ -377,7 +374,6 @@ public final class Utils {
         String s = pGson.toJson(map);
         System.out.println(s);
     }
-
 
 
 }

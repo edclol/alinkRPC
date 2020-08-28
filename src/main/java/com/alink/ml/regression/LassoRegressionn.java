@@ -12,12 +12,17 @@ import java.util.HashMap;
  */
 public class LassoRegressionn implements BaseModule {
     @Override
-    public PipelineStageBase getModule(HashMap<String, String> map) {
+    public PipelineStageBase getModule(HashMap<String, String> map,String schemaStr) {
+        //读取标签和特征再封装
+        HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(schemaStr);
+        String[] fea = feaLab.getOrDefault("fea",null);
+        String label = feaLab.get("label")[0];
+
         return new LassoRegression()
                 //必须设置
                 .setLambda(Utils.douOrDefault(map, "lambda", ""))
                 .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
-                .setLabelCol(map.getOrDefault("labelCol", "labelCol"))
+                .setLabelCol(label)
                 //有默认的设置
                 .setOptimMethod(map.getOrDefault("optimMethod", null))
                 .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
@@ -25,7 +30,7 @@ public class LassoRegressionn implements BaseModule {
                 .setWithIntercept(Utils.boolOrTrue(map, "withIntercept"))
                 .setMaxIter(Utils.intOrDefault(map, "maxIter", "100"))
                 .setEpsilon(Utils.douOrDefault(map, "epsilon", "1.0E-6"))
-                .setFeatureCols(Utils.strArrayOrNull(map, "featureCols"))
+                .setFeatureCols(fea)
                 .setWeightCol(map.getOrDefault("weightCol", null))
                 .setVectorCol(map.getOrDefault("vectorCol", null))
                 .setStandardization(Utils.boolOrTrue(map, "standardization"))
