@@ -239,6 +239,27 @@ public final class Utils {
         return "";
     }
 
+    public static String readSchemaFromHDFS1(String path) {
+
+        try {
+
+            String path1 =  path;
+            String rrr = "/root/schema" + path1.substring(path1.lastIndexOf("/")) + "_schema";
+            System.out.println("schema_path" + rrr);
+
+            FSDataInputStream in = new HadoopFileSystem(Config.HADOOP_FSURI).open(rrr);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+            String s = bufferedReader.readLine();
+            System.out.println("getSchema  " + s);
+            return s.trim();
+        } catch (IOException e) {
+            System.out.println("getSchema  error");
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
 
     /**
      * 解析参数 参数对照参考api
