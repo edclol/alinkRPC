@@ -39,6 +39,52 @@ public final class Utils {
 
     public static Logger logger = LogManager.getLogger(Utils.class);
 
+
+
+
+    /**
+     * 解析出特征列
+     * @param path
+     * @return
+     */
+    public static String[] StringToFeature(String path){
+        String str = readSchemaFromHDFS(path);
+        String[] arr = str.split(" , ");
+
+        for(int i=0; i<arr.length; i++){
+            arr[i] = arr[i].substring(0, arr[i].indexOf(" "));
+        }
+        return  arr;
+    }
+
+    /**
+     * 解析出特征和标签列
+     * @param path
+     * @return
+     */
+    public static HashMap<String, String[]> StringToFeatureLabel(String path){
+        String str = readSchemaFromHDFS(path);
+        String[] arr = str.split(" , ");
+
+        String[] fea = new String[arr.length-1];
+        String[] label = new String[1];
+
+        for(int i=0; i<arr.length; i++){
+            if(i != fea.length){
+                fea[i] = arr[i].substring(0, arr[i].indexOf(" "));
+                System.out.println(fea[i]);
+            }else {
+                label[0] = arr[i].substring(0, arr[i].indexOf(" "));
+                break;
+            }
+        }
+        System.out.println("feature_length:"+fea.length);
+        HashMap<String, String[]> hashMap = new HashMap<>();
+        hashMap.put("fea", fea);
+        hashMap.put("label", label);
+        return hashMap;
+    }
+
     /**
      * 存储数据更新schame 返回解析后并处理的schema
      * @param map
@@ -332,37 +378,6 @@ public final class Utils {
         System.out.println(s);
     }
 
-    public static String[] StringToFeature(String path){
-        String str = readSchemaFromHDFS(path);
-        String[] arr = str.split(" , ");
 
-        for(int i=0; i<arr.length; i++){
-            arr[i] = arr[i].substring(0, arr[i].indexOf(" "));
-        }
-        return  arr;
-    }
-
-    public static HashMap<String, String[]> StringToFeatureLabel(String path){
-        String str = readSchemaFromHDFS(path);
-        String[] arr = str.split(" , ");
-
-        String[] fea = new String[arr.length-1];
-        String[] label = new String[1];
-
-        for(int i=0; i<arr.length; i++){
-            if(i != fea.length){
-                fea[i] = arr[i].substring(0, arr[i].indexOf(" "));
-                System.out.println(fea[i]);
-            }else {
-                label[0] = arr[i].substring(0, arr[i].indexOf(" "));
-                break;
-            }
-        }
-        System.out.println("feature_length:"+fea.length);
-        HashMap<String, String[]> hashMap = new HashMap<>();
-        hashMap.put("fea", fea);
-        hashMap.put("label", label);
-        return hashMap;
-    }
 
 }

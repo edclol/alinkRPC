@@ -40,8 +40,7 @@ public class SelectBatchOpp {
             System.out.println(map);
 
             BatchOperator trainData = Utils.readBatchOpFromHDFS(map.getOrDefault("input_data_path", "hdfs:/data/iris.csv"));
-//            trainData.print();
-//            System.out.println("ddddddddd");
+
             //修改数据
             BatchOperator selected = trainData.link(new SelectBatchOp().setClause(map.getOrDefault("clause", "fea_0")));
 
@@ -90,7 +89,8 @@ public class SelectBatchOpp {
         FSDataOutputStream fs=null;
        try{
 
-           String outpath = "/root/schema" + map.getOrDefault("input_data_path", "hdfs:/data/iris.csv").substring(20) + "_schema";
+           String path = map.getOrDefault("input_data_path", "hdfs:/data/iris.csv");
+           String outpath = "/root/schema" + path.substring(path.lastIndexOf("/")) + "_schema";
            System.out.println("存储schema " + outpath);
            HadoopFileSystem hdfs = new HadoopFileSystem(Config.HADOOP_FSURI);
            fs = hdfs.create(outpath, FileSystem.WriteMode.OVERWRITE);
