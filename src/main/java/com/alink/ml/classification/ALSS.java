@@ -24,7 +24,6 @@ public class ALSS implements BaseModule {
                 .setItemCol(map.getOrDefault("itemCol", "itemCol"))
                 .setRateCol(map.getOrDefault("rateCol", "rateCol"))
 
-
                 //有默认值的参数
                 .setNumIter(Utils.intOrDefault(map, "numIter", "10"))
                 .setRank(Utils.intOrDefault(map, "rank", "10"))
