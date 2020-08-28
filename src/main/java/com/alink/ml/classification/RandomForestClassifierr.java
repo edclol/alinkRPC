@@ -13,7 +13,11 @@ import java.util.HashMap;
 public class RandomForestClassifierr implements BaseModule {
 
     @Override
-    public PipelineStageBase getModule(HashMap<String, String> map) {
+    public PipelineStageBase getModule(HashMap<String, String> map,String schemaStr) {
+        //读取标签和特征再封装
+        HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(schemaStr);
+        String[] fea = feaLab.getOrDefault("fea",null);
+        String label = feaLab.get("label")[0];
         return new RandomForestClassifier()
                 //必须填入的参数
                 .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))

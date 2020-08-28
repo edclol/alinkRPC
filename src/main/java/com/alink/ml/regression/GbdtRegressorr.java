@@ -12,7 +12,11 @@ import java.util.HashMap;
  */
 public class GbdtRegressorr implements BaseModule {
     @Override
-    public PipelineStageBase getModule(HashMap<String, String> map) {
+    public PipelineStageBase getModule(HashMap<String, String> map,String schemaStr) {
+        //读取标签和特征再封装
+        HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(schemaStr);
+        String[] fea = feaLab.getOrDefault("fea",null);
+        String label = feaLab.get("label")[0];
         return new GbdtRegressor()
                 .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
                 .setFeatureCols(Utils.strArrayOrNull(map, "featureCols"))

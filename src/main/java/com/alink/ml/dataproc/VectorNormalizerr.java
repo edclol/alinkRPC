@@ -13,8 +13,11 @@ public class VectorNormalizerr {
     public String fit(String parameter) {
         HashMap<String, String> map = Utils.json2map(parameter);
 
+        //读取hadoop上schema的数据
+        String schemaStr = Utils.readSchemaFromHDFS(map);
+
         //读取数据
-        BatchOperator trainData = Utils.readBatchOpFromHDFS(map.getOrDefault("input_data_path", ""));
+        BatchOperator trainData = Utils.readBatchOpFromHDFS(map,schemaStr);
 
         SampleBatchOp ratio = new SampleBatchOp()
                 .setRatio(Utils.douOrDefault(map, "ratio", "0.3"))
