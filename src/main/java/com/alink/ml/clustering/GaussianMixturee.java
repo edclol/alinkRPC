@@ -17,6 +17,7 @@ public class GaussianMixturee implements BaseModule {
         HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(schemaStr);
         String[] fea = feaLab.getOrDefault("fea",null);
         String label = feaLab.get("label")[0];
+
         return new GaussianMixture()
                 .setVectorCol(map.getOrDefault("vectorCol", "vectorCol"))
                 .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))

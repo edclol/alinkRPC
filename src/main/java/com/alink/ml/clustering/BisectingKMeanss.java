@@ -18,9 +18,11 @@ public class BisectingKMeanss implements BaseModule {
         String[] fea = feaLab.getOrDefault("fea",null);
         String label = feaLab.get("label")[0];
         return new BisectingKMeans()
+                //必须设置的参数
                 .setVectorCol(map.getOrDefault("vectorCol", "vectorCol"))
                 .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
 
+                //有默认值的参数
                 .setMinDivisibleClusterSize(Utils.intOrDefault(map, "minDivisibleClusterSize", "1"))
                 .setK(Utils.intOrDefault(map, "k", "4"))
                 .setDistanceType(map.getOrDefault("distanceType", "EUCLIDEAN"))

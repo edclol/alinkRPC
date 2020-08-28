@@ -22,7 +22,7 @@ public class Ldaa implements BaseModule {
                 .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
                 .setTopicNum(Utils.intOrDefault(map, "topicNum", ""))
                 .setSelectedCol(map.getOrDefault("selectedCol", "selectedCol"))
-
+                //有默认值的参数
                 .setPredictionDetailCol(map.getOrDefault("predictionDetailCol", "predictionDetailCol"))
                 .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
                 .setAlpha(Utils.douOrDefault(map, "alpha", "-1.0"))
