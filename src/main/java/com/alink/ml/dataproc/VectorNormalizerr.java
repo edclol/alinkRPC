@@ -21,7 +21,7 @@ public class VectorNormalizerr {
 
         SampleBatchOp ratio = new SampleBatchOp()
                 .setRatio(Utils.douOrDefault(map, "ratio", "0.3"))
-                .setWithReplacement(Utils.boolOrFalse(map, "withReplacement"));
+                .setWithReplacement(Utils.boolOrFalse(map, "withreplacement"));
 
         BatchOperator selected = ratio.linkFrom(trainData);
 

@@ -19,14 +19,14 @@ public class NaiveBayesTextClassifierr implements BaseModule {
         String label = feaLab.get("label")[0];
         return new NaiveBayesTextClassifier()
                 //必须设置的参数
-                .setLabelCol(map.getOrDefault("labelCol", ""))
-                .setVectorCol(map.getOrDefault("vectorCol", ""))
-                .setPredictionCol(map.getOrDefault("predictionCol", "f1"))
+                .setLabelCol(map.getOrDefault("labelcol", "labelcol"))
+                .setVectorCol(map.getOrDefault("vectorcol", "vectorcol"))
+                .setPredictionCol(map.getOrDefault("predictioncol", "f1"))
                 //有默认值的参数
-                .setModelType(map.getOrDefault("modelType", "Multinomial"))
-                .setWeightCol(map.getOrDefault("weightCol", null))
+                .setModelType(map.getOrDefault("modeltype", "multinomial"))
+                .setWeightCol(map.getOrDefault("weightcol", null))
                 .setSmoothing(Double.valueOf(map.getOrDefault("smoothing", "1.0")))
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
                 ;
     }
 }

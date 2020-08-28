@@ -26,7 +26,7 @@ public class MinMaxScalerr {
 
         Double min = Double.valueOf(map.getOrDefault("min", "0.0"));
         Double max = Double.valueOf(map.getOrDefault("max", "1.0"));
-        String[] selecetCols = Utils.StringToFeature(map.getOrDefault("input_data_path", "none"));
+        String[] selecetCols = Utils.StringToFeature(schemaStr);
 
         //修改数据
         MinMaxScaler minMaxScaler = new MinMaxScaler().setMin(min).setMax(max).setSelectedCols(selecetCols);

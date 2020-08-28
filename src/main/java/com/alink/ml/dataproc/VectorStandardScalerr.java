@@ -20,10 +20,10 @@ public class VectorStandardScalerr {
         BatchOperator trainData = Utils.readBatchOpFromHDFS(map,schemaStr);
 
         VectorStandardScaler vectorStandardScaler = new VectorStandardScaler()
-                .setSelectedCol(map.getOrDefault("selectedCol", ""))
-                .setWithMean(Utils.boolOrTrue(map, "withMean"))
-                .setWithStd(Utils.boolOrTrue(map, "withStd"))
-                .setOutputCol(map.getOrDefault("outputCol", null));
+                .setSelectedCol(map.getOrDefault("selectedcol", ""))
+                .setWithMean(Utils.boolOrTrue(map, "withmean"))
+                .setWithStd(Utils.boolOrTrue(map, "withstd"))
+                .setOutputCol(map.getOrDefault("outputcol", null));
 
         BatchOperator transform = vectorStandardScaler.fit(trainData).transform(trainData);
 

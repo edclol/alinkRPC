@@ -19,20 +19,20 @@ public class LogisticRegressionn implements BaseModule {
         String label = feaLab.get("label")[0];
         return new LogisticRegression()
                 //必须设置的参数
-                .setLabelCol(map.getOrDefault("labelCol", "label"))
-                .setPredictionCol(map.getOrDefault("predictionCol", "preCol"))
+                .setLabelCol(label)
+                .setPredictionCol(map.getOrDefault("predictioncol", "precol"))
 
                 //有默认值的参数
-                .setFeatureCols(Utils.strArrayOrNull(map, "featureCols"))
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
-                .setWeightCol(map.getOrDefault("weightCol", null))
-                .setOptimMethod(map.getOrDefault("optimMethod", null))
+                .setFeatureCols(fea)
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
+                .setWeightCol(map.getOrDefault("weightcol", null))
+                .setOptimMethod(map.getOrDefault("optimmethod", null))
                 .setL1(Utils.douOrDefault(map, "l1", "0.0"))
                 .setL2(Utils.douOrDefault(map, "l2", "0.0"))
-                .setWithIntercept(Utils.boolOrTrue(map, "withIntercept"))
-                .setMaxIter(Utils.intOrDefault(map, "maxIter", "100"))
+                .setWithIntercept(Utils.boolOrTrue(map, "withintercept"))
+                .setMaxIter(Utils.intOrDefault(map, "maxiter", "100"))
                 .setEpsilon(Utils.douOrDefault(map, "epsilon", "1.0E-6"))
-                .setWeightCol(map.getOrDefault("vectorCol", null))
+                .setWeightCol(map.getOrDefault("vectorcol", null))
                 .setStandardization(Utils.boolOrTrue(map, "standardization"))
                 ;
     }

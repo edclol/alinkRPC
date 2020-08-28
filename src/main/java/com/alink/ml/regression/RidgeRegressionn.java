@@ -21,17 +21,17 @@ public class RidgeRegressionn implements BaseModule {
                 //必须设置
                 .setLambda(Utils.douOrDefault(map, "lambda", ""))
                 .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
-                .setLabelCol(map.getOrDefault("labelCol", "labelCol"))
+                .setLabelCol(label)
                 //有默认的设置
-                .setOptimMethod(map.getOrDefault("optimMethod", null))
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
-                .setVectorCol(map.getOrDefault("vectorCol", null))
-                .setWithIntercept(Utils.boolOrTrue(map, "withIntercept"))
-                .setMaxIter(Utils.intOrDefault(map, "maxIter", "100"))
+                .setOptimMethod(map.getOrDefault("optimmethod", "SGD"))
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
+                .setVectorCol(map.getOrDefault("vectorcol", null))
+                .setWithIntercept(Utils.boolOrTrue(map, "withintercept"))
+                .setMaxIter(Utils.intOrDefault(map, "maxiter", "100"))
                 .setEpsilon(Utils.douOrDefault(map, "epsilon", "1.0E-6"))
-                .setFeatureCols(Utils.strArrayOrNull(map, "featureCols"))
-                .setWeightCol(map.getOrDefault("weightCol", null))
-                .setVectorCol(map.getOrDefault("vectorCol", null))
+                .setFeatureCols(fea)
+                .setWeightCol(map.getOrDefault("weightcol", null))
+                .setVectorCol(map.getOrDefault("vectorcol", null))
                 .setStandardization(Utils.boolOrTrue(map, "standardization"))
 
                 ;

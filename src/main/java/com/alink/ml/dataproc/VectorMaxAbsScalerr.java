@@ -20,8 +20,8 @@ public class VectorMaxAbsScalerr {
         BatchOperator trainData = Utils.readBatchOpFromHDFS(map,schemaStr);
 
         VectorMaxAbsScaler vectorMaxAbsScaler = new VectorMaxAbsScaler()
-                .setSelectedCol(map.getOrDefault("selectedCol", ""))
-                .setOutputCol(map.getOrDefault("outputCol", null));
+                .setSelectedCol(map.getOrDefault("selectedcol", "selectedcol"))
+                .setOutputCol(map.getOrDefault("outputcol", null));
 
         BatchOperator transform = vectorMaxAbsScaler.fit(trainData).transform(trainData);
 

@@ -20,24 +20,24 @@ public class RandomForestRegressorr implements BaseModule {
         return new RandomForestRegressor()
 
                 //必须填入的参数
-                .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
-                .setFeatureCols(Utils.strArrayOrNull(map,"featureCols"))
-                .setLabelCol(map.getOrDefault("labelCol", "labelCol"))
+                .setPredictionCol(map.getOrDefault("predictioncol", "predictioncol"))
+                .setFeatureCols(fea)
+                .setLabelCol(label)
 
                 //不是必须填入有默认值的参数
-                .setNumSubsetFeatures(Integer.valueOf(map.getOrDefault("numSubsetFeatures", "2147483647")))
-                .setNumTrees(Integer.valueOf(map.getOrDefault("numTrees", "10")))
-                .setSubsamplingRatio(Double.valueOf(map.getOrDefault("subsamplingRatio", "100000.0")))
-                .setReservedCols(map.getOrDefault("reservedCols", null))
-                .setMaxDepth(Integer.valueOf(map.getOrDefault("maxDepth", "2147483647")))
-                .setMinSamplesPerLeaf(Integer.valueOf(map.getOrDefault("minSamplesPerLeaf", "2")))
-                .setCreateTreeMode(map.getOrDefault("createTreeMode", "series"))
-                .setMaxBins(Integer.valueOf(map.getOrDefault("maxBins", "128")))
-                .setMaxMemoryInMB(Integer.valueOf(map.getOrDefault("maxMemoryInMB", "64")))
-                .setWeightCol(map.getOrDefault("weightCol", null))
-                .setMaxLeaves(Integer.valueOf(map.getOrDefault("maxLeaves", "2147483647")))
-                .setMinSampleRatioPerChild(Double.valueOf(map.getOrDefault("minSampleRatioPerChild", "0.0")))
-                .setMinInfoGain(Double.valueOf(map.getOrDefault("minInfoGain", "0.0")))
+                .setNumSubsetFeatures(Integer.valueOf(map.getOrDefault("numsubsetfeatures", "2147483647")))
+                .setNumTrees(Integer.valueOf(map.getOrDefault("numtrees", "10")))
+                .setSubsamplingRatio(Double.valueOf(map.getOrDefault("subsamplingratio", "100000.0")))
+                .setReservedCols(map.getOrDefault("reservedcols", null))
+                .setMaxDepth(Integer.valueOf(map.getOrDefault("maxdepth", "2147483647")))
+                .setMinSamplesPerLeaf(Integer.valueOf(map.getOrDefault("minsamplesperLeaf", "2")))
+                .setCreateTreeMode(map.getOrDefault("createtreemode", "series"))
+                .setMaxBins(Integer.valueOf(map.getOrDefault("maxbins", "128")))
+                .setMaxMemoryInMB(Integer.valueOf(map.getOrDefault("maxMemoryinMB", "64")))
+                .setWeightCol(map.getOrDefault("weightcol", null))
+                .setMaxLeaves(Integer.valueOf(map.getOrDefault("maxleaves", "2147483647")))
+                .setMinSampleRatioPerChild(Double.valueOf(map.getOrDefault("minsampleratioperchild", "0.0")))
+                .setMinInfoGain(Double.valueOf(map.getOrDefault("mininfogain", "0.0")))
 
                 ;
     }

@@ -20,12 +20,12 @@ public class LinearSvmm implements BaseModule {
         String label = feaLab.get("label")[0];
         return new LinearSvm()
                 //必须填入的参数
-                .setFeatureCols(Utils.strArrayOrNull(map, "featureCols"))
-                .setLabelCol(map.getOrDefault("labelCol", "a"))
+                .setFeatureCols(fea)
+                .setLabelCol(label)
 
                 //不是必须填入有默认值的参数
-                .setWeightCol(map.getOrDefault("weightCol", null))
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
+                .setWeightCol(map.getOrDefault("weightcol", null))
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
                 ;
     }
 

@@ -13,25 +13,22 @@ import java.util.HashMap;
 public class ALSS implements BaseModule {
     @Override
     public PipelineStageBase getModule(HashMap<String, String> map,String schemaStr) {
-        //读取标签和特征再封装
-        HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(schemaStr);
-        String[] fea = feaLab.getOrDefault("fea",null);
-        String label = feaLab.get("label")[0];
+
         return new ALS()
                 //必须设置的参数
-                .setPredictionCol(map.getOrDefault("predictionCol", "preCol"))
-                .setUserCol(map.getOrDefault("userCol", "userCol"))
-                .setItemCol(map.getOrDefault("itemCol", "itemCol"))
-                .setRateCol(map.getOrDefault("rateCol", "rateCol"))
+                .setPredictionCol(map.getOrDefault("predictioncol", "precol"))
+                .setUserCol(map.getOrDefault("usercol", "usercol"))
+                .setItemCol(map.getOrDefault("itemcol", "itemcol"))
+                .setRateCol(map.getOrDefault("ratecol", "ratecol"))
 
                 //有默认值的参数
-                .setNumIter(Utils.intOrDefault(map, "numIter", "10"))
+                .setNumIter(Utils.intOrDefault(map, "numiter", "10"))
                 .setRank(Utils.intOrDefault(map, "rank", "10"))
                 .setLambda(Utils.douOrDefault(map, "lambda", "0.1"))
                 .setAlpha(Utils.douOrDefault(map, "alpha", "40.0"))
                 .setNonnegative(Utils.boolOrFalse(map, "nonnegative"))
-                .setImplicitPrefs(Utils.boolOrFalse(map, "implicitPrefs"))
-                .setNumBlocks(Utils.intOrDefault(map, "numBlocks", "1"))
+                .setImplicitPrefs(Utils.boolOrFalse(map, "implicitprefs"))
+                .setNumBlocks(Utils.intOrDefault(map, "numblocks", "1"))
                 ;
     }
 }

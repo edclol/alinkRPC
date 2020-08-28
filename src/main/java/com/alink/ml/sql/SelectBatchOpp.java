@@ -26,11 +26,11 @@ public class SelectBatchOpp {
 
         //修改数据
         SelectBatchOp selectBatchOp = new SelectBatchOp().setClause(map.getOrDefault("clause", "fea_0"));
+        BatchOperator link = trainData.link(selectBatchOp);
 
-        SelectBatchOp selectBatchOp1 = selectBatchOp.linkFrom(trainData);
 
         //存储数据更新schame 返回解析后并处理的schema
-        String str = Utils.saveDFAndSchema2str(map, selectBatchOp1);
+        String str = Utils.saveDFAndSchema2str(map, link);
 
         return str;
 

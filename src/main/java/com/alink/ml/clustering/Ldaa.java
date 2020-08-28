@@ -13,27 +13,24 @@ import java.util.HashMap;
 public class Ldaa implements BaseModule {
     @Override
     public PipelineStageBase getModule(HashMap<String, String> map,String schemaStr) {
-        //读取标签和特征再封装
-        HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(schemaStr);
-        String[] fea = feaLab.getOrDefault("fea",null);
-        String label = feaLab.get("label")[0];
-//        GbdtRegressor
+
+
         return new Lda()
-                .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
-                .setTopicNum(Utils.intOrDefault(map, "topicNum", ""))
-                .setSelectedCol(map.getOrDefault("selectedCol", "selectedCol"))
+                .setPredictionCol(map.getOrDefault("predictioncol", "predictioncol"))
+                .setTopicNum(Utils.intOrDefault(map, "topicnum", ""))
+                .setSelectedCol(map.getOrDefault("selectedcol", "selectedcol"))
                 //有默认值的参数
-                .setPredictionDetailCol(map.getOrDefault("predictionDetailCol", "predictionDetailCol"))
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
+                .setPredictionDetailCol(map.getOrDefault("predictiondetailcol", "predictiondetailcol"))
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
                 .setAlpha(Utils.douOrDefault(map, "alpha", "-1.0"))
                 .setBeta(Utils.douOrDefault(map, "beta", "-1.0"))
                 .setMethod(map.getOrDefault("method", "em"))
-                .setOnlineLearningOffset(Utils.douOrDefault(map, "onlineLearningOffset", "1024.0"))
-                .setOnlineLearningDecay(Utils.douOrDefault(map, "learningDecay", "0.51"))
-                .setOnlineSubSamplingRate(Utils.douOrDefault(map, "subsamplingRate", "0.05"))
-                .setOptimizeDocConcentration(Utils.boolOrTrue(map, "optimizeDocConcentration"))
-                .setNumIter(Utils.intOrDefault(map, "numIter", "10"))
-                .setVocabSize(Utils.intOrDefault(map, "vocabSize", "262144"))
+                .setOnlineLearningOffset(Utils.douOrDefault(map, "onlinelearningoffset", "1024.0"))
+                .setOnlineLearningDecay(Utils.douOrDefault(map, "learningdecay", "0.51"))
+                .setOnlineSubSamplingRate(Utils.douOrDefault(map, "subsamplingrate", "0.05"))
+                .setOptimizeDocConcentration(Utils.boolOrTrue(map, "optimizedocconcentration"))
+                .setNumIter(Utils.intOrDefault(map, "numiter", "10"))
+                .setVocabSize(Utils.intOrDefault(map, "vocabsize", "262144"))
 
                 ;
     }

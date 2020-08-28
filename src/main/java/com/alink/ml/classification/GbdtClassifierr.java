@@ -19,25 +19,25 @@ public class GbdtClassifierr implements BaseModule {
         String label = feaLab.get("label")[0];
         return new GbdtClassifier()
                 //必须设置的参数
-                .setLabelCol(map.getOrDefault("labelCol", "label"))
-                .setFeatureCols(Utils.strArrayOrNull(map, "featureCols"))
-                .setPredictionCol(map.getOrDefault("predictionCol", "preCol"))
+                .setLabelCol(label)
+                .setFeatureCols(fea)
+                .setPredictionCol(map.getOrDefault("predictioncol", "precol"))
 
                 //有默认值的参数
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
-                .setLearningRate(Utils.douOrDefault(map, "learningRate", "0.3"))
-                .setMinSumHessianPerLeaf(Utils.douOrDefault(map, "minSumHessianPerLeaf", "0.0"))
-                .setNumTrees(Utils.intOrDefault(map, "numTrees", "100"))
-                .setMinSamplesPerLeaf(Utils.intOrDefault(map, "minSamplesPerLeaf", "100"))
-                .setMaxDepth(Utils.intOrDefault(map, "maxDepth", "6"))
-                .setSubsamplingRatio(Utils.douOrDefault(map, "subsamplingRatio", "1.0"))
-                .setFeatureSubsamplingRatio(Utils.douOrDefault(map, "featureSubsamplingRatio", "1.0"))
-                .setGroupCol(map.getOrDefault("groupCol", null))
-                .setMaxBins(Utils.intOrDefault(map, "maxBins", "128"))
-                .setWeightCol(map.getOrDefault("weightCol", null))
-                .setMaxLeaves(Utils.intOrDefault(map, "maxLeaves", "2147483647"))
-                .setMinSampleRatioPerChild(Utils.douOrDefault(map, "minSampleRatioPerChild", "0.0"))
-                .setMinInfoGain(Utils.douOrDefault(map, "minInfoGain", "0.0"))
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
+                .setLearningRate(Utils.douOrDefault(map, "learningrate", "0.3"))
+                .setMinSumHessianPerLeaf(Utils.douOrDefault(map, "minsumhessianperleaf", "0.0"))
+                .setNumTrees(Utils.intOrDefault(map, "numtrees", "100"))
+                .setMinSamplesPerLeaf(Utils.intOrDefault(map, "minsamplesperleaf", "100"))
+                .setMaxDepth(Utils.intOrDefault(map, "maxdepth", "6"))
+                .setSubsamplingRatio(Utils.douOrDefault(map, "subsamplingratio", "1.0"))
+                .setFeatureSubsamplingRatio(Utils.douOrDefault(map, "featuresubsamplingratio", "1.0"))
+                .setGroupCol(map.getOrDefault("groupcol", null))
+                .setMaxBins(Utils.intOrDefault(map, "maxbins", "128"))
+                .setWeightCol(map.getOrDefault("weightcol", null))
+                .setMaxLeaves(Utils.intOrDefault(map, "maxleaves", "2147483647"))
+                .setMinSampleRatioPerChild(Utils.douOrDefault(map, "minsampleratioperchild", "0.0"))
+                .setMinInfoGain(Utils.douOrDefault(map, "mininfogain", "0.0"))
                 ;
     }
 }

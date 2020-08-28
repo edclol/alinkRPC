@@ -13,19 +13,16 @@ import java.util.HashMap;
 public class GaussianMixturee implements BaseModule {
     @Override
     public PipelineStageBase getModule(HashMap<String, String> map,String schemaStr) {
-        //读取标签和特征再封装
-        HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(schemaStr);
-        String[] fea = feaLab.getOrDefault("fea",null);
-        String label = feaLab.get("label")[0];
+
 
         return new GaussianMixture()
-                .setVectorCol(map.getOrDefault("vectorCol", "vectorCol"))
-                .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
+                .setVectorCol(map.getOrDefault("vectorcol", "vectorcol"))
+                .setPredictionCol(map.getOrDefault("predictioncol", "predictioncol"))
 
                 .setK(Utils.intOrDefault(map, "k", "2"))
-                .setMaxIter(Utils.intOrDefault(map, "maxIter", "100"))
-                .setPredictionDetailCol(map.getOrDefault("predictionDetailCol", "predictionDetailCol"))
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
+                .setMaxIter(Utils.intOrDefault(map, "maxiter", "100"))
+                .setPredictionDetailCol(map.getOrDefault("predictiondetailcol", "predictiondetailcol"))
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
                 .setEpsilon(Utils.douOrDefault(map, "epsilon", "0.01"))
 
                 ;

@@ -19,21 +19,21 @@ public class GeneralizedLinearRegressionn implements BaseModule {
         String label = feaLab.get("label")[0];
 
         return new GeneralizedLinearRegression()
-                .setLabelCol(map.getOrDefault("labelCol", "labelCol"))
-                .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
-                .setFeatureCols(Utils.strArrayOrNull(map, "featureCols"))
+                .setLabelCol(label)
+                .setPredictionCol(map.getOrDefault("predictioncol", "predictioncol"))
+                .setFeatureCols(fea)
 
-
+                //有默认值的参数
                 .setFamily(map.getOrDefault("family", "gaussian"))
-                .setVariancePower(Utils.douOrDefault(map, "variancePower", "0.0"))
+                .setVariancePower(Utils.douOrDefault(map, "variancepower", "0.0"))
                 .setLink(map.getOrDefault("link", null))
-                .setLinkPower(Utils.douOrDefault(map, "linkPower", "1.0"))
-                .setOffsetCol(map.getOrDefault("offsetCol", null))
-                .setFitIntercept(Utils.boolOrTrue(map, "fitIntercept"))
-                .setRegParam(Utils.douOrDefault(map, "regParam", "0.0"))
-                .setLinkPredResultCol(map.getOrDefault("linkPredResultCol", null))
-                .setWeightCol(map.getOrDefault("weightCol", null))
-                .setMaxIter(Utils.intOrDefault(map, "maxIter", "10"))
+                .setLinkPower(Utils.douOrDefault(map, "linkpower", "1.0"))
+                .setOffsetCol(map.getOrDefault("offsetcol", null))
+                .setFitIntercept(Utils.boolOrTrue(map, "fitintercept"))
+                .setRegParam(Utils.douOrDefault(map, "regparam", "0.0"))
+                .setLinkPredResultCol(map.getOrDefault("linkpredresultcol", null))
+                .setWeightCol(map.getOrDefault("weightcol", null))
+                .setMaxIter(Utils.intOrDefault(map, "maxiter", "10"))
 
 
                 ;

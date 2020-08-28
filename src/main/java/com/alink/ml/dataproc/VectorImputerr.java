@@ -22,9 +22,9 @@ public class VectorImputerr {
 
         VectorImputer vectorImputer = new VectorImputer()
                 .setStrategy(map.getOrDefault("strategy", "mean"))
-                .setFillValue(Utils.douOrDefault(map, "fillValue", null))
-                .setSelectedCol(map.getOrDefault("selectedCol", ""))
-                .setOutputCol(map.getOrDefault("outputCol", null));
+                .setFillValue(Utils.douOrDefault(map, "fillvalue", null))
+                .setSelectedCol(map.getOrDefault("selectedcol", ""))
+                .setOutputCol(map.getOrDefault("outputcol", null));
 
         BatchOperator transform = vectorImputer.fit(trainData).transform(trainData);
 

@@ -95,11 +95,11 @@ public final class Utils {
 
 
         System.out.println("存储数据  " + input_data_path);
+        String s = batchOperator.getSchema().toString();
 
         CsvSinkBatchOp csvSink = new CsvSinkBatchOp().setOverwriteSink(true).setFilePath(input_data_path);
-        csvSink.linkFrom(batchOperator);
+        CsvSinkBatchOp csvSinkBatchOp = csvSink.linkFrom(batchOperator);
 
-        String s = batchOperator.getSchema().toString();
         System.out.println("-----------------------");
 
         //解析出schema
@@ -111,7 +111,7 @@ public final class Utils {
         //存储schema
         FSDataOutputStream fs = null;
         try {
-            String path = map.getOrDefault("input_data_path", "hdfs:/data/iris.csv");
+            String path = map.getOrDefault("output_data_path", "hdfs:/data/iris.csv");
             String outpath = "/root/schema" + path.substring(path.lastIndexOf("/")) + "_schema";
             System.out.println("存储schema " + outpath);
             HadoopFileSystem hdfs = new HadoopFileSystem(Config.HADOOP_FSURI);
@@ -151,7 +151,7 @@ public final class Utils {
     /**
      * 读取hdfs上的csv文件 或者文件夹下的所有csv文件
      *
-     * @param str                  "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
+     * @param      "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
      * @param "hdfs://master:9000"
      * @return
      */
@@ -207,14 +207,14 @@ public final class Utils {
 
         }
         logger.error("读取数据源失败");
-        System.out.println("读取数据源失败");
+        System.out.println("Utils.readBatchOpFromHDFS 读取数据源失败");
         return new CsvSourceBatchOp();
     }
 
     /**
      * 从hdfs上读取schema文件 获取schemaStr
      *
-     * @param path                 "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
+     * @param    "hdfs:/user/experiment/tmp/14b9ba80-853f-11ea-92f2-000c29192c75-00"
      * @param "hdfs://master:9000"
      * @return "f0 double,f1 int"
      */

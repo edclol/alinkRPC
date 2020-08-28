@@ -13,22 +13,19 @@ import java.util.HashMap;
 public class BisectingKMeanss implements BaseModule {
     @Override
     public PipelineStageBase getModule(HashMap<String, String> map,String schemaStr) {
-        //读取标签和特征再封装
-        HashMap<String, String[]> feaLab = Utils.StringToFeatureLabel(schemaStr);
-        String[] fea = feaLab.getOrDefault("fea",null);
-        String label = feaLab.get("label")[0];
+
         return new BisectingKMeans()
                 //必须设置的参数
-                .setVectorCol(map.getOrDefault("vectorCol", "vectorCol"))
-                .setPredictionCol(map.getOrDefault("predictionCol", "predictionCol"))
+                .setVectorCol(map.getOrDefault("vectorcol", "vectorcol"))
+                .setPredictionCol(map.getOrDefault("predictioncol", "predictioncol"))
 
                 //有默认值的参数
-                .setMinDivisibleClusterSize(Utils.intOrDefault(map, "minDivisibleClusterSize", "1"))
+                .setMinDivisibleClusterSize(Utils.intOrDefault(map, "mindivisibleclustersize", "1"))
                 .setK(Utils.intOrDefault(map, "k", "4"))
-                .setDistanceType(map.getOrDefault("distanceType", "EUCLIDEAN"))
-                .setMaxIter(Utils.intOrDefault(map, "maxIter", "10"))
-                .setPredictionDetailCol(map.getOrDefault("predictionDetailCol", "predictionDetailCol"))
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
+                .setDistanceType(map.getOrDefault("distancetype", "EUCLIDEAN"))
+                .setMaxIter(Utils.intOrDefault(map, "maxiter", "10"))
+                .setPredictionDetailCol(map.getOrDefault("predictiondetailcol", "predictiondetailcol"))
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
 
                 ;
     }

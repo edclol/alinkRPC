@@ -19,14 +19,14 @@ public class IsotonicRegressionn implements BaseModule {
         String label = feaLab.get("label")[0];
 
         return new IsotonicRegression()
-                .setLabelCol(map.getOrDefault("labelCol","labelCol"))
-                .setPredictionCol(map.getOrDefault("predictionCol","predictionCol"))
+                .setLabelCol(map.getOrDefault("labelcol","labelcol"))
+                .setPredictionCol(map.getOrDefault("predictioncol","predictioncol"))
 
-                .setFeatureCol(map.getOrDefault("featureCol",null))
+                .setFeatureCol(map.getOrDefault("featurecol",null))
                 .setIsotonic(Utils.boolOrTrue(map,"isotonic"))
-                .setFeatureIndex(Utils.intOrDefault(map,"featureIndex","0"))
-                .setWeightCol(map.getOrDefault("weightCol",null))
-                .setVectorCol(map.getOrDefault("vectorCol",null))
+                .setFeatureIndex(Utils.intOrDefault(map,"featureindex","0"))
+                .setWeightCol(map.getOrDefault("weightcol",null))
+                .setVectorCol(map.getOrDefault("vectorcol",null))
 
                 ;
     }

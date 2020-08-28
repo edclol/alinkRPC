@@ -20,15 +20,15 @@ public class MultilayerPerceptronClassifierr implements BaseModule {
 
         return new MultilayerPerceptronClassifier()
                 //必须设置的参数
-                .setLabelCol(map.getOrDefault("labelCol", ""))
-                .setPredictionCol(map.getOrDefault("predictionCol", "f1"))
+                .setLabelCol(label)
+                .setPredictionCol(map.getOrDefault("predictioncol", "f1"))
                 .setLayers(Utils.intArrayOrNull(map, "layers"))
 
                 //有默认值的参数
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
-                .setBlockSize(Integer.valueOf(map.getOrDefault("blockSize", "64")))
-                .setVectorCol(map.getOrDefault("vectorCol", null))
-                .setMaxIter(Integer.valueOf(map.getOrDefault("maxIter", "100")))
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
+                .setBlockSize(Integer.valueOf(map.getOrDefault("blocksize", "64")))
+                .setVectorCol(map.getOrDefault("vectorcol", null))
+                .setMaxIter(Integer.valueOf(map.getOrDefault("maxiter", "100")))
                 .setEpsilon(Double.valueOf(map.getOrDefault("epsilon", "1.0E-6")))
                 .setL1(Double.valueOf(map.getOrDefault("l1", "0.0")))
                 .setL2(Double.valueOf(map.getOrDefault("l2", "0.0")))

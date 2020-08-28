@@ -21,10 +21,10 @@ public class VectorMinMaxScalerr {
         BatchOperator trainData = Utils.readBatchOpFromHDFS(map,schemaStr);
 
         VectorMinMaxScaler vectorMinMaxScaler = new VectorMinMaxScaler()
-                .setSelectedCol(map.getOrDefault("selectedCol", ""))
+                .setSelectedCol(map.getOrDefault("selectedcol", "selectedcol"))
                 .setMin(Utils.douOrDefault(map, "min", "0.0"))
                 .setMax(Utils.douOrDefault(map, "max", "1.0"))
-                .setOutputCol(map.getOrDefault("outputCol", null));
+                .setOutputCol(map.getOrDefault("outputcol", null));
 
         BatchOperator transform = vectorMinMaxScaler.fit(trainData).transform(trainData);
 

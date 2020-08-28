@@ -22,9 +22,9 @@ public class Imputerr {
 
         Imputer imputer = new Imputer()
                 .setStrategy(map.getOrDefault("strategy", "mean"))
-                .setFillValue(map.getOrDefault("fillValue", null))
-                .setSelectedCols(Utils.strArrayOrNull(map, "selectedCols"))
-                .setOutputCols(Utils.strArrayOrNull(map, "outputCols"));
+                .setFillValue(map.getOrDefault("fillvalue", null))
+                .setSelectedCols(Utils.strArrayOrNull(map, "selectedcols"))
+                .setOutputCols(Utils.strArrayOrNull(map, "outputcols"));
 
         BatchOperator selected = imputer.fit(trainData).transform(trainData);
 

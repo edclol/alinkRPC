@@ -24,10 +24,10 @@ public class StandardScalerr {
         BatchOperator trainData = Utils.readBatchOpFromHDFS(map,schemaStr);
 
         StandardScaler standardScaler = new StandardScaler()
-                .setSelectedCols(Utils.strArrayOrNull(map, "selectedCols"))
-                .setWithMean(Utils.boolOrTrue(map, "withMean"))
-                .setWithStd(Utils.boolOrTrue(map, "withStd"))
-                .setOutputCols(Utils.strArrayOrNull(map, "outputCols"));
+                .setSelectedCols(Utils.strArrayOrNull(map, "selectedcols"))
+                .setWithMean(Utils.boolOrTrue(map, "withmean"))
+                .setWithStd(Utils.boolOrTrue(map, "withstd"))
+                .setOutputCols(Utils.strArrayOrNull(map, "outputcols"));
 
         BatchOperator selected = standardScaler.fit(trainData).transform(trainData);
 

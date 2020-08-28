@@ -19,21 +19,21 @@ public class DecisionTreeRegressorr implements BaseModule {
         String label = feaLab.get("label")[0];
         return new DecisionTreeRegressor()
                 //必须填入的参数
-                .setPredictionCol(map.getOrDefault("predictionCol", ""))
-                .setFeatureCols(Utils.strArrayOrNull(map, "featureCols"))
-                .setLabelCol(map.getOrDefault("labelCol", ""))
+                .setPredictionCol(map.getOrDefault("predictioncol", "predictioncol"))
+                .setFeatureCols(fea)
+                .setLabelCol(label)
 
                 //不是必须填入有默认值的参数
-                .setMaxDepth(Integer.valueOf(map.getOrDefault("maxDepth", "2147483647")))
-                .setMinSamplesPerLeaf(Integer.valueOf(map.getOrDefault("minSamplesPerLeaf", "2")))
-                .setCreateTreeMode(map.getOrDefault("createTreeMode", "series"))
-                .setMaxBins(Integer.valueOf(map.getOrDefault("maxBins", "128")))
-                .setMaxMemoryInMB(Integer.valueOf(map.getOrDefault("maxMemoryInMB", "64")))
-                .setReservedCols(Utils.strArrayOrNull(map, "reservedCols"))
-                .setWeightCol(map.getOrDefault("weightCol", null))
-                .setMaxLeaves(Utils.intOrDefault(map, "maxLeaves", "2147483647"))
-                .setMinSampleRatioPerChild(Double.valueOf(map.getOrDefault("minSampleRatioPerChild", "0.0")))
-                .setMinInfoGain(Double.valueOf(map.getOrDefault("minInfoGain", "0.0")))
+                .setMaxDepth(Integer.valueOf(map.getOrDefault("maxdepth", "2147483647")))
+                .setMinSamplesPerLeaf(Integer.valueOf(map.getOrDefault("minsamplesperleaf", "2")))
+                .setCreateTreeMode(map.getOrDefault("createtreemode", "series"))
+                .setMaxBins(Integer.valueOf(map.getOrDefault("maxbins", "128")))
+                .setMaxMemoryInMB(Integer.valueOf(map.getOrDefault("maxmemoryinmb", "64")))
+                .setReservedCols(Utils.strArrayOrNull(map, "reservedcols"))
+                .setWeightCol(map.getOrDefault("weightcol", null))
+                .setMaxLeaves(Utils.intOrDefault(map, "maxleaves", "2147483647"))
+                .setMinSampleRatioPerChild(Double.valueOf(map.getOrDefault("minsampleratioperchild", "0.0")))
+                .setMinInfoGain(Double.valueOf(map.getOrDefault("mininfogain", "0.0")))
 
                 ;
 
