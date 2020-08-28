@@ -1,6 +1,7 @@
 package com.alink.ml.dataproc;
 
 import com.alibaba.alink.operator.batch.BatchOperator;
+import com.alibaba.alink.pipeline.PipelineStageBase;
 import com.alibaba.alink.pipeline.dataproc.MinMaxScaler;
 import com.alink.ml.utils.Utils;
 import org.apache.logging.log4j.LogManager;
