@@ -33,7 +33,7 @@ public class MinMaxScalerr {
 
         BatchOperator selected = minMaxScaler.fit(trainData).transform(trainData);
 
-        //存储数据更新schame 返回解析后并处理的schema
+        //存储数据更新schame  返回解析后并处理的schema
         String str = Utils.saveDFAndSchema2str(map, selected);
         return str;
 
