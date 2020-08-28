@@ -1,17 +1,9 @@
-package com.alink.ml.dataETL;
+package com.alink.ml.dataproc;
 
-import com.alibaba.alink.common.io.filesystem.HadoopFileSystem;
 import com.alibaba.alink.operator.batch.BatchOperator;
-import com.alibaba.alink.operator.batch.sink.CsvSinkBatchOp;
 import com.alibaba.alink.pipeline.dataproc.StandardScaler;
-import com.alibaba.alink.pipeline.dataproc.StandardScalerModel;
-import com.alink.ml.utils.Config;
 import com.alink.ml.utils.Utils;
-import org.apache.flink.core.fs.FSDataOutputStream;
-import org.apache.flink.core.fs.FileSystem;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

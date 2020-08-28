@@ -1,9 +1,7 @@
-package com.alink.ml.dataETL;
+package com.alink.ml.dataproc;
 
 import com.alibaba.alink.operator.batch.BatchOperator;
-import com.alibaba.alink.params.dataproc.HasStrategy;
 import com.alibaba.alink.pipeline.dataproc.Imputer;
-import com.alibaba.alink.pipeline.dataproc.StandardScaler;
 import com.alink.ml.utils.Utils;
 
 import java.util.HashMap;

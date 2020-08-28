@@ -1,4 +1,4 @@
-package com.alink.ml.dataETL;
+package com.alink.ml.dataproc;
 
 import com.alibaba.alink.common.io.filesystem.HadoopFileSystem;
 import com.alibaba.alink.operator.batch.BatchOperator;

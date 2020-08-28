@@ -3,7 +3,7 @@ package com.alink.genjava;
 
 import com.alink.ml.classification.DecisionTreeClassifierr;
 import com.alink.ml.classification.RandomForestClassifierr;
-import com.alink.ml.dataETL.MinMaxScalerr;
+import com.alink.ml.dataproc.MinMaxScalerr;
 import com.alink.ml.regression.LinearRegressionn;
 import com.alink.ml.sql.SelectBatchOpp;
 import org.apache.thrift.TException;

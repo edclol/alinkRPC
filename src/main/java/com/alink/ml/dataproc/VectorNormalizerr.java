@@ -1,4 +1,4 @@
-package com.alink.ml.dataETL;
+package com.alink.ml.dataproc;
 
 import com.alibaba.alink.operator.batch.BatchOperator;
 import com.alibaba.alink.operator.batch.dataproc.SampleBatchOp;
