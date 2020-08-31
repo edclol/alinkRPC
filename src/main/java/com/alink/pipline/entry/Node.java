@@ -35,6 +35,7 @@ public class Node {
         return this.prev.add(s);
     }
     public Boolean addFixedOP(StreamOperator s) {
+
         return this.fixedOP.add(s);
     }
 

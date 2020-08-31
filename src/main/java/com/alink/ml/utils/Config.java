@@ -10,7 +10,7 @@ public final class Config {
     public static final String HADOOP_FSURI = "hdfs://172.16.1.127:9000";
 
     public static final int THRIFT_SERVER_PORT = 8091;
-    public static final String THRIFT_SERVER_IP = "172.16.1.213";
+    public static final String THRIFT_SERVER_IP = "127.0.0.1";
     public static final int THRIFT_CLIENT_TIMEOUT = 10000;
 
 
