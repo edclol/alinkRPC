@@ -114,7 +114,7 @@ public class AlinkStreamService {
         //遍历前面的节点
         for (Node node : inNode.getPrev()) {
             //获得前面节点的FIxedOP列表
-            node.getFixedOP().stream().forEach(list::add);
+            list.addAll(node.getFixedOP());
         }
         //list转为array
         StreamOperator[] array = new StreamOperator[list.size()];
