@@ -98,7 +98,13 @@ public final class Utils {
         String s = batchOperator.getSchema().toString();
 
         CsvSinkBatchOp csvSink = new CsvSinkBatchOp().setOverwriteSink(true).setFilePath(input_data_path);
-        CsvSinkBatchOp csvSinkBatchOp = csvSink.linkFrom(batchOperator);
+        BatchOperator link = batchOperator.link(csvSink);
+
+        try {
+            BatchOperator.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         System.out.println("-----------------------");
 
